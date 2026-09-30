@@ -4,8 +4,8 @@ import { SITE } from "./site";
 
 /**
  * Best-effort in-memory sliding-window rate limiter.
- * On serverless platforms each instance has its own memory, so this throttles bursts per instance.
- * For strict global limits, back this with Upstash Redis or Vercel KV.
+ * On serverless platforms each instance has its own memory, so this throttles bursts per instance;
+ * guardPost uses Upstash Redis for a global limit when it is configured.
  */
 const buckets = new Map<string, number[]>();
 const MAX_KEYS = 10_000;
@@ -30,6 +30,34 @@ export function rateLimit(key: string, limit: number, windowMs: number): { ok: b
     }
   }
   return { ok: true, retryAfter: 0 };
+}
+
+/**
+ * Global fixed-window limit shared by every server instance, via Upstash Redis's REST API.
+ * Optional: without UPSTASH_REDIS_REST_URL / _TOKEN (or if Upstash is unreachable) it falls back to the in-memory limiter.
+ */
+async function sharedRateLimit(key: string, limit: number, windowMs: number): Promise<{ ok: boolean; retryAfter: number }> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return rateLimit(key, limit, windowMs);
+  const now = Date.now();
+  const bucket = `rl:${key}:${Math.floor(now / windowMs)}`;
+  try {
+    const res = await fetch(`${url.replace(/\/+$/, "")}/pipeline`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify([["INCR", bucket], ["PEXPIRE", bucket, String(windowMs)]]),
+      cache: "no-store",
+      signal: AbortSignal.timeout(2000),
+    });
+    if (!res.ok) throw new Error(String(res.status));
+    const [incr] = (await res.json()) as { result?: number }[];
+    const count = Number(incr?.result ?? 0);
+    return count > limit ? { ok: false, retryAfter: Math.ceil((windowMs - (now % windowMs)) / 1000) } : { ok: true, retryAfter: 0 };
+  } catch {
+    console.error("[ratelimit] Upstash unavailable — using in-memory limiter");
+    return rateLimit(key, limit, windowMs);
+  }
 }
 
 export function clientIp(req: NextRequest): string {
@@ -72,7 +100,7 @@ export async function guardPost(
   const declared = Number(req.headers.get("content-length") ?? "0");
   if (declared > MAX_BODY_BYTES) return { ok: false, res: json({ ok: false, error: "Request too large." }, 413) };
 
-  const rl = rateLimit(`${opts.key}:${clientIp(req)}`, opts.limit, opts.windowMs);
+  const rl = await sharedRateLimit(`${opts.key}:${clientIp(req)}`, opts.limit, opts.windowMs);
   if (!rl.ok) {
     return {
       ok: false,

@@ -1,13 +1,22 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
-import { CATEGORIES } from "@/data/categories";
+import { categoryByKey } from "@/data/taxonomy";
+import { categoryHref } from "@/lib/listings";
 import { SITE } from "@/lib/site";
 
 const cols = [
   {
     title: "Directory",
-    links: CATEGORIES.slice(0, 7).map((c) => ({ href: `/categories/${c.slug}`, label: c.short })),
+    links: [
+      { href: "/ai-tools/", label: "All AI tools" },
+      { href: "/software/", label: "Business software" },
+      ...["ai-tools/writing", "ai-tools/productivity", "software/accounting", "software/crm", "ai-tools/customer-support"].map((k) => {
+        const c = categoryByKey(k)!;
+        return { href: categoryHref(k), label: c.name };
+      }),
+      { href: "/uk/making-tax-digital/", label: "Making Tax Digital" },
+    ],
   },
   {
     title: "Popular",
@@ -15,7 +24,7 @@ const cols = [
       { href: "/guides/best-ai-tools-for-uk-small-businesses", label: "Best AI tools UK" },
       { href: "/compare/chatgpt-vs-claude", label: "ChatGPT vs Claude" },
       { href: "/guides/ai-model-comparison", label: "AI model comparison" },
-      { href: "/guides/making-tax-digital-ai-accounting-software", label: "MTD software 2026" },
+      { href: "/uk/making-tax-digital/software/", label: "MTD software 2026" },
       { href: "/guides/best-ai-presentation-makers", label: "AI presentation makers" },
       { href: "/guides/is-deepseek-safe-for-uk-businesses", label: "Is DeepSeek safe?" },
     ],
@@ -25,11 +34,14 @@ const cols = [
     links: [
       { href: "/about", label: "About us" },
       { href: "/methodology", label: "How we test" },
+      { href: "/editorial-policy/", label: "Editorial policy" },
+      { href: "/review-policy/", label: "Review policy" },
       { href: "/affiliate-disclosure", label: "Affiliate disclosure" },
       { href: "/privacy-policy", label: "UK GDPR & privacy" },
       { href: "/terms", label: "Terms of use" },
       { href: "/contact", label: "Contact & corrections" },
       { href: "/submit-tool", label: "Submit a tool" },
+      { href: "/claim-listing/", label: "Claim a listing" },
     ],
   },
 ];

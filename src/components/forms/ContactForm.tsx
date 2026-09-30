@@ -54,7 +54,7 @@ export function ContactForm() {
       </label>
       {status === "error" && <p role="alert" className="text-body-sm text-red-700">{message}</p>}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-caption text-slate-mute">We use your details only to reply. See our <a className="underline" href="/privacy-policy">privacy policy</a>.</p>
+        <p className="text-caption text-slate-mute">We use your details only to reply. See our <a className="underline" href="/privacy-policy/">privacy policy</a>.</p>
         <button type="submit" className="btn-primary" disabled={status === "loading"}>
           {status === "loading" && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}
           Send message

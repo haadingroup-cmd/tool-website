@@ -7,3 +7,6 @@ export const GUIDES: Guide[] = [...GUIDES_1, ...GUIDES_2, ...GUIDES_3].sort((a, 
 
 export const guideBySlug = (slug: string) => GUIDES.find((g) => g.slug === slug);
 export const featuredGuide = () => GUIDES.find((g) => g.featured) ?? GUIDES[0]!;
+
+/** Canonical URL of a guide. Hub-owned guides (e.g. the MTD software guide) live outside /guides/. */
+export const guidePath = (g: Pick<Guide, "slug" | "path">) => g.path ?? `/guides/${g.slug}/`;

@@ -1,3 +1,4 @@
+import { guidePath } from "@/data/guides";
 import Link from "next/link";
 import type { Guide } from "@/lib/types";
 import { GuideCover } from "./GuideCover";
@@ -14,7 +15,7 @@ export function GuideCard({ guide }: { guide: Guide }) {
           {mins} min read
         </p>
         <h3 className="font-serif text-headline-md text-ink">
-          <Link href={`/guides/${guide.slug}`} className="after:absolute after:inset-0 group-hover:underline">
+          <Link href={guidePath(guide)} className="after:absolute after:inset-0 group-hover:underline">
             {guide.title}
           </Link>
         </h3>

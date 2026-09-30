@@ -6,13 +6,13 @@ import { ToolCard } from "@/components/tools/ToolCard";
 
 const FILTERS = [
   { key: "all", label: "All tools" },
-  { key: "ai-assistants", label: "AI Assistants" },
-  { key: "finance-vat", label: "Finance & VAT" },
-  { key: "automation", label: "Automation" },
-  { key: "marketing", label: "Marketing" },
-  { key: "customer-support", label: "Customer Support" },
-  { key: "writing", label: "Writing" },
-  { key: "meetings", label: "Meetings" },
+  { key: "ai-tools/productivity", label: "AI Assistants" },
+  { key: "software/accounting", label: "Accounting & MTD" },
+  { key: "software/automation", label: "Automation" },
+  { key: "ai-tools/marketing", label: "Marketing" },
+  { key: "ai-tools/customer-support", label: "Customer Support" },
+  { key: "ai-tools/writing", label: "Writing" },
+  { key: "software/video-conferencing", label: "Meetings" },
 ] as const;
 
 export function TrendingTools({ tools }: { tools: Tool[] }) {

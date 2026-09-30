@@ -2,7 +2,7 @@ import { AlertTriangle, Info, Lightbulb } from "lucide-react";
 import type { Block, Section } from "@/lib/types";
 import { RichText } from "@/components/ui/RichText";
 import { ToolMini } from "@/components/tools/ToolMini";
-import { toolBySlug } from "@/data/tools";
+import { toolBySlug } from "@/lib/catalog";
 
 function BlockView({ b }: { b: Block }) {
   switch (b.type) {

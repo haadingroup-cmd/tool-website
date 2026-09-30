@@ -4,7 +4,7 @@ export const GUIDES_1: Guide[] = [
   {
     slug: "best-ai-tools-for-uk-small-businesses",
     title: "The Best AI Tools for UK Small Businesses in 2026",
-    metaTitle: "Best AI Tools for Small Businesses UK (2026) — Tested & Priced in £",
+    metaTitle: "Best AI Tools for Small Businesses UK (2026): Tested, in £",
     description:
       "The best AI tools for UK small businesses in 2026, tested for sterling pricing, UK GDPR and Making Tax Digital. Our picks for writing, accounting, customer service, automation and more.",
     kicker: "Flagship Guide",
@@ -98,7 +98,7 @@ export const GUIDES_1: Guide[] = [
           },
           {
             type: "p",
-            text: "The non-negotiable is HMRC recognition for Making Tax Digital. MTD for VAT already applies to all VAT-registered businesses, and **MTD for Income Tax Self Assessment began on 6 April 2026** for sole traders and landlords with qualifying income over £50,000, with the threshold falling in later years. Read our [MTD and AI accounting guide](/guides/making-tax-digital-ai-accounting-software) for the full timeline.",
+            text: "The non-negotiable is HMRC recognition for Making Tax Digital. MTD for VAT already applies to all VAT-registered businesses, and **MTD for Income Tax Self Assessment began on 6 April 2026** for sole traders and landlords with qualifying income over £50,000, with the threshold falling in later years. Read our [MTD and AI accounting guide](/uk/making-tax-digital/software/) for the full timeline.",
           },
           { type: "tools", slugs: ["xero", "freeagent", "quickbooks", "dext"] },
         ],

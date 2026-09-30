@@ -4,14 +4,21 @@ import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Search, SlidersHorizontal } from "lucide-react";
 import type { Tool } from "@/lib/types";
 import { ToolCard } from "./ToolCard";
-import { CATEGORIES } from "@/data/categories";
+import { CATEGORIES } from "@/data/taxonomy";
+import type { Platform } from "@/lib/types";
 
 const PER_PAGE = 12;
 type Sort = "score" | "value" | "ukFit" | "name";
 
-export function ToolDirectory({ tools }: { tools: Tool[] }) {
+const PLATFORMS: [Platform, string][] = [
+  ["web", "Web"], ["windows", "Windows"], ["mac", "Mac"], ["ios", "iPhone"], ["android", "Android"], ["api", "API"], ["self-hosted", "Self-hosted"],
+];
+
+export function ToolDirectory({ tools, showCategory = true }: { tools: Tool[]; showCategory?: boolean }) {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState("all");
+  const [platform, setPlatform] = useState("all");
+  const [ukData, setUkData] = useState(false);
   const [free, setFree] = useState(false);
   const [mtd, setMtd] = useState(false);
   const [sort, setSort] = useState<Sort>("score");
@@ -24,16 +31,18 @@ export function ToolDirectory({ tools }: { tools: Tool[] }) {
         (cat === "all" || t.categories.includes(cat as Tool["categories"][number])) &&
         (!free || t.pricing.freePlan) &&
         (!mtd || t.mtdCompatible) &&
+        (platform === "all" || t.platforms.includes(platform as Platform)) &&
+        (!ukData || t.uk.dataResidency.value === "uk" || t.uk.dataResidency.value === "eu") &&
         (!needle || `${t.name} ${t.vendor} ${t.tagline} ${t.bestFor} ${t.features.join(" ")}`.toLowerCase().includes(needle)),
     );
     const by: Record<Sort, (a: Tool, b: Tool) => number> = {
-      score: (a, b) => b.score - a.score,
-      value: (a, b) => b.scores.value - a.scores.value,
-      ukFit: (a, b) => b.scores.ukFit - a.scores.ukFit,
+      score: (a, b) => (b.score ?? -1) - (a.score ?? -1) || a.name.localeCompare(b.name),
+      value: (a, b) => (b.scores?.value ?? -1) - (a.scores?.value ?? -1) || a.name.localeCompare(b.name),
+      ukFit: (a, b) => (b.scores?.ukFit ?? -1) - (a.scores?.ukFit ?? -1) || a.name.localeCompare(b.name),
       name: (a, b) => a.name.localeCompare(b.name),
     };
     return list.sort(by[sort]);
-  }, [tools, q, cat, free, mtd, sort]);
+  }, [tools, q, cat, free, mtd, platform, ukData, sort]);
 
   const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const current = Math.min(page, pages);
@@ -59,10 +68,25 @@ export function ToolDirectory({ tools }: { tools: Tool[] }) {
           />
         </label>
         <div className="flex flex-wrap items-center gap-2">
-          <label className="sr-only" htmlFor="dir-cat">Category</label>
-          <select id="dir-cat" value={cat} onChange={(e) => reset(() => setCat(e.target.value))} className="input w-auto">
-            <option value="all">All categories</option>
-            {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.short}</option>)}
+          {showCategory && (
+            <>
+              <label className="sr-only" htmlFor="dir-cat">Category</label>
+              <select id="dir-cat" value={cat} onChange={(e) => reset(() => setCat(e.target.value))} className="input w-auto">
+                <option value="all">All categories</option>
+                {(["ai-tools", "software"] as const).map((root) => (
+                  <optgroup key={root} label={root === "ai-tools" ? "AI tools" : "Business software"}>
+                    {CATEGORIES.filter((c) => c.root === root && tools.some((t) => t.categories.includes(c.key))).map((c) => (
+                      <option key={c.key} value={c.key}>{c.short}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </>
+          )}
+          <label className="sr-only" htmlFor="dir-platform">Platform</label>
+          <select id="dir-platform" value={platform} onChange={(e) => reset(() => setPlatform(e.target.value))} className="input w-auto">
+            <option value="all">Any platform</option>
+            {PLATFORMS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
           </select>
           <label className="sr-only" htmlFor="dir-sort">Sort by</label>
           <select id="dir-sort" value={sort} onChange={(e) => reset(() => setSort(e.target.value as Sort))} className="input w-auto">
@@ -79,6 +103,11 @@ export function ToolDirectory({ tools }: { tools: Tool[] }) {
             className={`rounded-full border px-3 py-1.5 text-label ${mtd ? "border-ink bg-ink text-white" : "border-rule-strong bg-surface-lowest text-ink"}`}>
             MTD ready
           </button>
+          <button type="button" aria-pressed={ukData} onClick={() => reset(() => setUkData((v) => !v))}
+            title="Vendor offers UK or EU data hosting (unverified — check the listing)"
+            className={`rounded-full border px-3 py-1.5 text-label ${ukData ? "border-ink bg-ink text-white" : "border-rule-strong bg-surface-lowest text-ink"}`}>
+            UK/EU data
+          </button>
         </div>
       </div>
 
@@ -94,7 +123,7 @@ export function ToolDirectory({ tools }: { tools: Tool[] }) {
       ) : (
         <div className="card mt-4 p-8 text-center">
           <p className="text-headline-sm text-ink">No tools match those filters.</p>
-          <button type="button" className="btn-secondary mt-4" onClick={() => { setQ(""); setCat("all"); setFree(false); setMtd(false); setPage(1); }}>
+          <button type="button" className="btn-secondary mt-4" onClick={() => { setQ(""); setCat("all"); setPlatform("all"); setFree(false); setMtd(false); setUkData(false); setPage(1); }}>
             Clear filters
           </button>
         </div>

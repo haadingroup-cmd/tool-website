@@ -41,10 +41,11 @@ export function Header() {
   const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const q = String(new FormData(e.currentTarget).get("q") ?? "").trim().slice(0, 80);
-    if (q) router.push(`/search?q=${encodeURIComponent(q)}`);
+    if (q) router.push(`/search/?q=${encodeURIComponent(q)}`);
   };
 
-  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+  const strip = (p: string) => (p.length > 1 ? p.replace(/\/+$/, "") : p);
+  const isActive = (href: string) => strip(pathname) === strip(href) || strip(pathname).startsWith(`${strip(href)}/`);
 
   return (
     <header className="glass sticky top-0 z-50 border-b border-rule">

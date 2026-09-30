@@ -25,3 +25,35 @@ jobs:
       - run: npm run build
         env:
           NEXT_TELEMETRY_DISABLED: "1"
+
+  database:
+    # Applies the platform migration to a real PostgreSQL 16 and loads the catalogue twice (idempotency check).
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGURL: postgresql://postgres:postgres@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - run: psql "$PGURL" -v ON_ERROR_STOP=1 -q -f supabase/migrations/0001_platform.sql
+      - run: psql "$PGURL" -v ON_ERROR_STOP=1 -q -f supabase/migrations/0002_reviews_moderation.sql -f supabase/migrations/0002_reviews_moderation.sql
+      - run: npm run -s db:seed-sql > seed.sql
+      - run: psql "$PGURL" -v ON_ERROR_STOP=1 -q -f seed.sql && psql "$PGURL" -v ON_ERROR_STOP=1 -q -f seed.sql
+      - name: Row counts match the catalogue
+        run: |
+          expected=$(grep -c "^insert into products" seed.sql)
+          actual=$(psql "$PGURL" -At -c "select count(*) from products")
+          echo "products: expected $expected, got $actual"
+          test "$expected" = "$actual"

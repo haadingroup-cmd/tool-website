@@ -2,7 +2,7 @@
 
 import { Check, Loader2 } from "lucide-react";
 import { Honeypot, useSubmit } from "./useSubmit";
-import { CATEGORIES } from "@/data/categories";
+import { CATEGORIES } from "@/data/taxonomy";
 
 export function SubmitToolForm() {
   const { status, message, submit } = useSubmit("/api/submit-tool");
@@ -42,7 +42,12 @@ export function SubmitToolForm() {
           Category
           <select name="category" required defaultValue="" className="input font-normal">
             <option value="" disabled>Choose a category</option>
-            {CATEGORIES.map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+            <optgroup label="AI tools">
+              {CATEGORIES.filter((c) => c.root === "ai-tools").map((c) => <option key={c.key} value={c.key}>{c.name}</option>)}
+            </optgroup>
+            <optgroup label="Business software">
+              {CATEGORIES.filter((c) => c.root === "software").map((c) => <option key={c.key} value={c.key}>{c.name}</option>)}
+            </optgroup>
           </select>
         </label>
         <label className="grid gap-1.5 text-label text-ink">

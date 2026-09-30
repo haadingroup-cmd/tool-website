@@ -107,6 +107,7 @@ export const GUIDES_2: Guide[] = [
   },
   {
     slug: "making-tax-digital-ai-accounting-software",
+    path: "/uk/making-tax-digital/software/",
     title: "Making Tax Digital 2026: The Best AI Accounting Software for UK Businesses",
     metaTitle: "Making Tax Digital 2026: Best MTD Accounting Software (AI Picks)",
     description:
@@ -141,7 +142,7 @@ export const GUIDES_2: Guide[] = [
           },
           {
             type: "p",
-            text: "Qualifying income is your total gross income from self-employment and property before expenses. Always confirm your position using [HMRC's official MTD guidance on GOV.UK](https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax), as rules and exemptions can change.",
+            text: "Qualifying income is your total gross income from self-employment and property before expenses. Always confirm your position using [HMRC's official MTD guidance on GOV.UK](https://www.gov.uk/guidance/find-out-if-and-when-you-need-to-use-making-tax-digital-for-income-tax), as rules and exemptions can change.",
           },
         ],
       },

@@ -28,12 +28,21 @@ export const SITE = {
   lastUpdated: "2026-09-24",
 } as const;
 
-export const absoluteUrl = (path = "/") => `${SITE.url}${path.startsWith("/") ? path : `/${path}`}`;
+/** Canonical path form: leading and trailing slash (next.config trailingSlash: true), except files like /feed.xml. */
+export const canonicalPath = (path = "/") => {
+  const [p, rest = ""] = path.split(/(?=[?#])/);
+  let out = p!.startsWith("/") ? p! : `/${p}`;
+  if (!out.endsWith("/") && !/\.[a-z0-9]+$/i.test(out) && !out.endsWith("opengraph-image")) out += "/";
+  return out + rest;
+};
+
+export const absoluteUrl = (path = "/") => `${SITE.url}${canonicalPath(path)}`;
 
 export const NAV = [
-  { href: "/tools", label: "AI Tools Directory" },
-  { href: "/categories", label: "Categories" },
+  { href: "/ai-tools/", label: "AI Tools" },
+  { href: "/software/", label: "Software" },
   { href: "/compare", label: "Compare" },
-  { href: "/guides", label: "Guides" },
-  { href: "/methodology", label: "How We Test" },
+  { href: "/guides/", label: "Guides" },
+  { href: "/uk/", label: "UK & MTD" },
+  { href: "/find-my-tool/", label: "Find my tool" },
 ] as const;

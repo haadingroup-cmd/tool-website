@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { COMPARISONS } from "@/data/comparisons";
-import { toolBySlug } from "@/data/tools";
+import { toolBySlug } from "@/lib/catalog";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { ToolLogo } from "@/components/ui/ToolLogo";
 import { Reveal } from "@/components/ui/Reveal";
@@ -21,7 +21,7 @@ export default function ComparePage() {
       <Breadcrumbs items={[{ name: "Compare", path: "/compare" }]} />
       <header className="mt-4 max-w-3xl">
         <h1 className="font-serif text-headline-xl-mobile text-ink md:text-headline-xl">Head-to-head comparisons</h1>
-        <p className="mt-3 font-serif text-body-lead text-slate-body">Side-by-side verdicts on the tools UK small businesses most often choose between.</p>
+        <p className="mt-3 font-serif text-body-lead text-slate-body">Neutral, side-by-side comparisons of the tools UK small businesses most often choose between.</p>
       </header>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {COMPARISONS.map((c, i) => {
@@ -36,7 +36,7 @@ export default function ComparePage() {
                   <ToolLogo name={b.name} color={b.color} size={40} />
                 </span>
                 <span className="font-serif text-headline-md text-ink group-hover:underline">{c.title}</span>
-                <span className="line-clamp-2 text-body-md text-slate-body">{c.verdict}</span>
+                <span className="line-clamp-2 text-body-md text-slate-body">{c.summary}</span>
               </Link>
             </Reveal>
           );

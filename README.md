@@ -7,15 +7,16 @@ A complete Next.js 15 site built from the Stitch "British Editorial Intelligence
 
 | Area | Details |
 |---|---|
-| Pages | Home, tools directory (search/filter/sort/paginate), 37 tool reviews, 14 category pages, 10 comparisons, 18 guides, search, about, methodology, affiliate disclosure, privacy (UK GDPR), terms, contact, submit-a-tool, unsubscribe, 404 |
-| Backend | `/api/subscribe` (with optional welcome email via Resend), `/api/unsubscribe` (HMAC-signed links + RFC 8058 one-click), `/api/contact`, `/api/submit-tool` (Supabase via server-side REST), `/api/search` |
+| Pages | Home; `/ai-tools/` and `/software/` hubs with 46 categories + curated lists (free, free trial, paid, UK-built); 68 product pages (37 hands-on scored, 31 listings marked "Not yet scored"); 10 neutral comparisons; `/alternatives/{slug}/`; `/best/{slug}/`; `/industries/`, `/use-cases/`; `/uk/` hub and `/uk/making-tax-digital/` cluster; `/find-my-tool/` 10-question finder; 18 guides; search with rule-based natural-language matching; editorial and review policies; claim-listing, newsletter, author page; legal pages |
+| Backend | `/api/claim-listing`, `/api/v1/events` (cookie-less first-party analytics), `/go/{slug}/` (affiliate redirect, catalogue URLs only), `/api/subscribe` (with optional welcome email via Resend), `/api/unsubscribe` (HMAC-signed links + RFC 8058 one-click), `/api/contact`, `/api/submit-tool` (Supabase via server-side REST), `/api/search` |
 | Security | Strict CSP + HSTS + frame/sniff/referrer/permissions headers, same-origin (CSRF) checks, JSON-only, 16 KB body limit, per-IP rate limiting, zod validation, honeypot + timing bot traps, RLS-locked tables, service key never sent to the browser, no `dangerouslySetInnerHTML` for content, 0 npm vulnerabilities |
 | SEO | Per-page titles/descriptions/canonicals/hreflang (en-GB), Open Graph + Twitter cards, dynamic OG images, XML sitemap, robots.txt, RSS feed, breadcrumbs |
 | Schema.org | Organization, WebSite + SearchAction, BreadcrumbList, Article, SoftwareApplication + Review/Rating, ItemList, FAQPage, Speakable |
 | AEO / GEO / LLM | "Quick answer" boxes, key takeaways, FAQ blocks, `llms.txt` + `llms-full.txt`, AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended…) explicitly allowed |
 | Design & motion | Newsreader + Inter (self-hosted via `next/font`), CSS-3D hero with pointer parallax, 3D tilt cards, scroll reveals, animated score bars, reading progress bar. Honours `prefers-reduced-motion` |
-| Quality gates | `npm run check:content` (slugs, tool references, internal links), typecheck, lint, build, `npm audit` — all run in GitHub Actions (`.github/workflows/ci.yml`) |
-| Performance | 170 pages statically pre-rendered, ~103–116 kB first-load JS, no third-party scripts, SVG-generated artwork (no heavy images) |
+| Quality gates | Programmatic-SEO quality gate (`src/lib/quality.ts`: ≥70 index, 50–69 noindex, <50 not generated, <3 products never indexed); `npm run check:content` (slugs, references, internal links, redirect targets, canonical comparison slugs, no comparison winners, verified facts must carry a source), typecheck, lint, build, `npm audit` — all run in GitHub Actions (`.github/workflows/ci.yml`) |
+| Database | `supabase/migrations/0001_platform.sql` (37 tables, RLS on all, anon read only for published rows, PII-free `public_reviews` view, rating summary only at ≥3 reviews); `npm run db:seed-sql` loads the catalogue idempotently; tested in CI against PostgreSQL 16 |
+| Performance | ~350 pages statically pre-rendered, ~103–116 kB first-load JS, no third-party scripts, SVG-generated artwork (no heavy images) |
 
 ## Local development
 
@@ -41,7 +42,10 @@ npm run check:content && npm run typecheck && npm run lint && npm run build
       - `SUPABASE_URL` = your Supabase project URL
       - `SUPABASE_SERVICE_ROLE_KEY` = your service role key (**never** prefix it with `NEXT_PUBLIC_`)
       - `NEWSLETTER_SECRET` = 32+ random characters (`openssl rand -hex 32`), which signs unsubscribe links
-      - Optional: `RESEND_API_KEY` and `EMAIL_FROM` for welcome emails (verify your domain in Resend first)
+      - `SUPABASE_ANON_KEY` for sign-in (magic link)
+      - Optional: `RESEND_API_KEY` and `EMAIL_FROM` for welcome and moderation emails (verify your domain in Resend first)
+      - Optional: `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` (Cloudflare Turnstile captcha on sign-in and reviews)
+      - Optional: `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (rate limits shared across servers)
       - Optional: `INDEXNOW_KEY` (`openssl rand -hex 16`), so every production deploy pings Bing (which also powers ChatGPT search)
    4. Deploy, then add your custom domain under **Settings → Domains**.
 3. **Search engines**

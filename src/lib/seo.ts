@@ -1,3 +1,4 @@
+import { guidePath } from "@/data/guides";
 import type { Metadata } from "next";
 import { SITE, absoluteUrl } from "./site";
 import type { Comparison, Faq, Guide, Tool } from "./types";
@@ -28,7 +29,8 @@ export function pageMetadata(input: PageMetaInput): Metadata {
   const url = absoluteUrl(input.path);
   const description = clip(input.description);
   return {
-    title: input.absoluteTitle ? { absolute: input.title } : input.title,
+    // The layout appends " | SmarterBiz.uk"; drop the suffix when it would push the title past ~65 characters.
+    title: input.absoluteTitle || `${input.title} | ${SITE.name}`.length > 65 ? { absolute: input.title } : input.title,
     description,
     keywords: input.keywords ? [...input.keywords] : undefined,
     alternates: { canonical: url, languages: { "en-GB": url, "x-default": url } },
@@ -119,11 +121,11 @@ export function faqLd(faqs: Faq[]) {
 const authorLd = () => ({
   "@type": "Organization",
   name: SITE.author.name,
-  url: absoluteUrl("/about"),
+  url: absoluteUrl("/authors/editorial-team/"),
 });
 
 export function articleLd(g: Guide) {
-  const url = absoluteUrl(`/guides/${g.slug}`);
+  const url = absoluteUrl(guidePath(g));
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -133,7 +135,7 @@ export function articleLd(g: Guide) {
     abstract: g.quickAnswer,
     url,
     mainEntityOfPage: url,
-    image: absoluteUrl(`/guides/${g.slug}/opengraph-image`),
+    image: absoluteUrl(`${guidePath(g)}opengraph-image`),
     datePublished: g.published,
     dateModified: g.updated,
     inLanguage: SITE.language,
@@ -146,7 +148,7 @@ export function articleLd(g: Guide) {
   };
 }
 
-export function toolLd(t: Tool) {
+export function toolLd(t: Tool, userRating?: { review_count: number; avg_overall: number } | null) {
   const url = absoluteUrl(`/tools/${t.slug}`);
   return {
     "@context": "https://schema.org",
@@ -154,13 +156,18 @@ export function toolLd(t: Tool) {
     "@id": `${url}#software`,
     name: t.name,
     applicationCategory: "BusinessApplication",
-    operatingSystem: "Web, Windows, macOS, iOS, Android",
+    operatingSystem: t.platforms.map((p) => ({ web: "Web", windows: "Windows", mac: "macOS", ios: "iOS", android: "Android", "chrome-extension": "Chrome", api: "API", "self-hosted": "Linux (self-hosted)" })[p]).join(", "),
     description: t.summary,
     url: t.website,
     image: absoluteUrl(`/tools/${t.slug}/opengraph-image`),
     publisher: { "@type": "Organization", name: t.vendor },
     ...(t.pricing.freePlan ? { offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free plan available" } } : {}),
-    review: {
+    // AggregateRating only from published user reviews, and only once there are at least 3 (master prompt §29).
+    ...(userRating && userRating.review_count >= 3
+      ? { aggregateRating: { "@type": "AggregateRating", ratingValue: userRating.avg_overall.toFixed(1), reviewCount: userRating.review_count, bestRating: "5", worstRating: "1" } }
+      : {}),
+    // A Review (and its rating) is only emitted for products we have actually tested.
+    ...(t.score == null ? {} : { review: {
       "@type": "Review",
       name: `${t.name} review for UK small businesses`,
       url,
@@ -171,7 +178,7 @@ export function toolLd(t: Tool) {
       reviewRating: { "@type": "Rating", ratingValue: t.score.toFixed(1), bestRating: "10", worstRating: "0" },
       positiveNotes: { "@type": "ItemList", itemListElement: t.pros.map((p, i) => ({ "@type": "ListItem", position: i + 1, name: p })) },
       negativeNotes: { "@type": "ItemList", itemListElement: t.cons.map((p, i) => ({ "@type": "ListItem", position: i + 1, name: p })) },
-    },
+    } }),
   };
 }
 
@@ -193,7 +200,7 @@ export function comparisonLd(c: Comparison, aName: string, bName: string) {
     "@id": `${url}#article`,
     headline: c.title,
     description: c.description,
-    abstract: c.verdict,
+    abstract: c.summary,
     url,
     mainEntityOfPage: url,
     image: absoluteUrl(`/compare/${c.slug}/opengraph-image`),
