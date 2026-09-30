@@ -14,8 +14,8 @@ The owner communicates in Roman Urdu; keep instructions step by step and one sma
 ## Next work, in order
 1. **Auth — code done (30 Sep 2026)**: magic link + PKCE, no SDK (`src/lib/auth/gotrue.ts`, `src/lib/auth/session.ts`, `src/middleware.ts`),
    `/login/`, `/account/` (display name, sign out), `/auth/callback/`, `profiles` row on first login. Tested end to end against a mock GoTrue/PostgREST.
-   **Still needed from the owner** (guide step by step): Supabase → Authentication → URL Configuration → Site URL + Redirect URLs
-   (`https://<production>/auth/callback/**` and `https://*-<vercel-team>.vercel.app/**`), then a real sign-in test on the Vercel preview.
+   Owner set Supabase Site URL = the PR #1 preview URL and Redirect URL `https://*-haadingroup-4472s-projects.vercel.app/**`,
+   and signed in + out successfully on the preview (30 Sep 2026). Change Site URL / add the production redirect once the domain is live.
    Supabase's built-in email only reaches the project's team members and is heavily rate-limited — custom SMTP (Resend) is needed before real users sign in.
 2. **User reviews**: form on product pages (auth required), stored as `submitted`, rules from `/review-policy/`;
    show published reviews via `public_reviews`; AggregateRating JSON-LD only from `product_rating_summary` (≥3 reviews).
