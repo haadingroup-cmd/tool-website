@@ -148,7 +148,7 @@ export function articleLd(g: Guide) {
   };
 }
 
-export function toolLd(t: Tool) {
+export function toolLd(t: Tool, userRating?: { review_count: number; avg_overall: number } | null) {
   const url = absoluteUrl(`/tools/${t.slug}`);
   return {
     "@context": "https://schema.org",
@@ -162,8 +162,11 @@ export function toolLd(t: Tool) {
     image: absoluteUrl(`/tools/${t.slug}/opengraph-image`),
     publisher: { "@type": "Organization", name: t.vendor },
     ...(t.pricing.freePlan ? { offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free plan available" } } : {}),
+    // AggregateRating only from published user reviews, and only once there are at least 3 (master prompt §29).
+    ...(userRating && userRating.review_count >= 3
+      ? { aggregateRating: { "@type": "AggregateRating", ratingValue: userRating.avg_overall.toFixed(1), reviewCount: userRating.review_count, bestRating: "5", worstRating: "1" } }
+      : {}),
     // A Review (and its rating) is only emitted for products we have actually tested.
-    // AggregateRating is never emitted until real user reviews exist (master prompt §29).
     ...(t.score == null ? {} : { review: {
       "@type": "Review",
       name: `${t.name} review for UK small businesses`,

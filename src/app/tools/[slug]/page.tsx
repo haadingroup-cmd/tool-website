@@ -23,8 +23,12 @@ import { OutboundLink } from "@/components/tools/OutboundLink";
 import { SITE } from "@/lib/site";
 import { formatDate } from "@/lib/content";
 import type { Faq, Tool } from "@/lib/types";
+import { reviewsFor } from "@/lib/reviews";
+import { UserReviews } from "@/components/reviews/UserReviews";
 
 export const dynamicParams = false;
+// Static pages, refreshed hourly (and immediately when a moderator publishes a review).
+export const revalidate = 3600;
 export const generateStaticParams = () => TOOLS.map((t) => ({ slug: t.slug }));
 
 type Props = { params: Promise<{ slug: string }> };
@@ -75,10 +79,11 @@ export default async function ToolPage({ params }: Props) {
   const alts = t.alternatives.map(toolBySlug).filter((x): x is Tool => Boolean(x));
   const comps = COMPARISONS.filter((c) => c.a === t.slug || c.b === t.slug);
   const guides = GUIDES.filter((g) => g.relatedTools.includes(t.slug)).slice(0, 4);
+  const { reviews, summary } = await reviewsFor(t.slug);
 
   return (
     <div className="container-site py-8">
-      <JsonLd data={toolLd(t)} />
+      <JsonLd data={toolLd(t, summary)} />
       <Breadcrumbs
         items={[
           ...(primary
@@ -171,6 +176,8 @@ export default async function ToolPage({ params }: Props) {
               May exclude VAT — always confirm on the vendor&apos;s site before buying.
             </p>
           </section>
+
+          <UserReviews slug={t.slug} name={t.name} reviews={reviews} summary={summary} />
 
           {comps.length > 0 && (
             <section className="mt-10" aria-labelledby="comparisons">

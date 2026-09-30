@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { CHANGE_FIELD_KEYS } from "./vendor";
 
 const email = z
   .string()
@@ -89,6 +90,53 @@ export const profileSchema = z.object({
   displayName: cleanLine(50, 2, "Display name").pipe(
     z.string().regex(/^[\p{L}\p{N} .'\-]+$/u, "Use letters, numbers, spaces, dots, apostrophes or hyphens only."),
   ),
+});
+
+const slug = z.string().trim().max(80).regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Unknown product.");
+const stars = z.number().int().min(1, "Please choose a rating from 1 to 5.").max(5, "Please choose a rating from 1 to 5.");
+
+export const reviewSchema = z.object({
+  productSlug: slug,
+  overall: stars,
+  easeOfUse: stars.optional(),
+  features: stars.optional(),
+  valueForMoney: stars.optional(),
+  support: stars.optional(),
+  ukSuitability: stars.optional(),
+  title: cleanText(120, 5, "Title").transform((s) => s.replace(/\s+/g, " ")),
+  pros: cleanText(3000, 20, "What you like"),
+  cons: cleanText(3000, 20, "What could be better"),
+  useCase: cleanLine(200, 0).optional(),
+  businessSize: z.enum(["solo", "2-9", "10-49", "50-249", "250+"]).optional(),
+  durationOfUse: z.enum(["<6m", "6-12m", "1-2y", "2y+"], { error: "Please say how long you have used it." }),
+  connection: z.enum(["none", "competitor", "partner"], { error: "Please declare any connection." }),
+  honest: z.literal(true, { error: "Please confirm your review is honest and based on your own use." }),
+  website: honeypot,
+  startedAt,
+});
+
+export const reportSchema = z.object({
+  reviewId: z.number().int().positive(),
+  reason: cleanText(500, 10, "Reason"),
+});
+
+export const vendorClaimSchema = z.object({
+  productSlug: slug,
+  jobTitle: cleanLine(100, 2, "Job title"),
+  evidence: cleanText(2000, 0, "Evidence").optional().default(""),
+});
+
+export const changeRequestSchema = z.object({
+  productSlug: slug,
+  field: z.enum(CHANGE_FIELD_KEYS, { error: "Please choose what should change." }),
+  value: cleanText(3000, 5, "Proposed change"),
+  evidenceUrl: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((u) => u === "" || /^https:\/\/[^\s]+$/i.test(u), "Evidence must be an https:// link.")
+    .optional()
+    .default(""),
 });
 
 export type SubscribeInput = z.infer<typeof subscribeSchema>;

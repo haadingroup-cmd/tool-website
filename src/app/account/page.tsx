@@ -45,6 +45,16 @@ export default async function AccountPage() {
         </div>
       </section>
 
+      <section className="card mt-6 p-6" aria-labelledby="more-heading">
+        <h2 id="more-heading" className="text-headline-sm text-ink">More</h2>
+        <ul className="mt-3 grid gap-2 text-body-md">
+          <li><a href="/vendor/" className="text-brand underline">Vendor dashboard</a> — claim a listing you work for and send corrections</li>
+          {profile && profile.role !== "user" && profile.role !== "vendor" && (
+            <li><a href="/admin/" className="text-brand underline">Admin</a> — moderation queues and SEO dashboard</li>
+          )}
+        </ul>
+      </section>
+
       <form method="post" action="/api/auth/logout" className="mt-8">
         <button type="submit" className="btn-secondary">Sign out</button>
       </form>

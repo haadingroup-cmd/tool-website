@@ -17,11 +17,11 @@ The owner communicates in Roman Urdu; keep instructions step by step and one sma
    Owner set Supabase Site URL = the PR #1 preview URL and Redirect URL `https://*-haadingroup-4472s-projects.vercel.app/**`,
    and signed in + out successfully on the preview (30 Sep 2026). Change Site URL / add the production redirect once the domain is live.
    Supabase's built-in email only reaches the project's team members and is heavily rate-limited — custom SMTP (Resend) is needed before real users sign in.
-2. **User reviews**: form on product pages (auth required), stored as `submitted`, rules from `/review-policy/`;
-   show published reviews via `public_reviews`; AggregateRating JSON-LD only from `product_rating_summary` (≥3 reviews).
-3. **Moderation/admin UI** (`/admin/`, role in `profiles.role`): review queue, claim requests, tool submissions, contact messages, audit_log writes.
-4. **Vendor dashboard**: verified claim → vendor_accounts → change_requests (never edits scores).
-5. **SEO dashboard** (admin): quality-gate scores per page, sitemap counts, noindex list.
+2–5. **Reviews, admin/moderation, vendor dashboard, SEO dashboard — code done (30 Sep 2026)**, see `docs/STATUS.md`.
+   Owner steps: run `supabase/migrations/0002_reviews_moderation.sql` in the SQL Editor; make their own profile admin with
+   `update profiles set role = 'admin' where user_id = (select id from auth.users where email = '<their email>');`
+   then test on the preview: `/admin/`, a review on any product page, `/vendor/`.
+   Local test rig: PostgreSQL 16 (port 5433, socket /var/tmp) + PostgREST binary + a small GoTrue stand-in; see commit message of the reviews commit.
 6. **Verify UK facts & prices** (network now open): set `status`, `source`, `checkedAt` in `src/data/tool-meta.ts` / `src/data/uk.ts` / pricing; `check:content` enforces sources.
 7. Then ask the owner for: author details, domain, Resend, Turnstile, DataForSEO (see `docs/ACCESS-CHECKLIST.md`), and whether to merge PR #1.
 

@@ -24,6 +24,10 @@ export default function ClaimPage() {
         <li>Claiming is free. It never affects editorial scores, rankings, reviews or comparisons.</li>
         <li>Sponsored placements, if we offer them, are always labelled &ldquo;Sponsored&rdquo;.</li>
       </ul>
+      <p className="mt-6 rounded-lg border border-teal/30 bg-teal/5 p-4 text-body-md text-slate-body">
+        <strong className="text-ink">Quickest route:</strong> <a href="/login/?next=%2Fvendor%2F" className="text-brand underline">sign in with your company email</a> and
+        claim from the vendor dashboard — once verified you can send corrections there directly. Or use the form below and we&apos;ll email you.
+      </p>
       <div className="mt-8"><ClaimForm products={products} /></div>
     </div>
   );
