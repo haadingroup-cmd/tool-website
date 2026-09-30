@@ -12,10 +12,10 @@ import { SectionHead } from "@/components/ui/SectionHead";
 import { Icon } from "@/components/ui/Icon";
 import { FaqList } from "@/components/ui/Faq";
 import { JsonLd } from "@/components/ui/JsonLd";
-import { TOOLS, topTools, toolBySlug, toolsByCategory } from "@/data/tools";
-import { GUIDES, featuredGuide } from "@/data/guides";
+import { TOOLS, topTools, toolBySlug } from "@/lib/catalog";
+import { GUIDES, featuredGuide, guidePath } from "@/data/guides";
 import { COMPARISONS } from "@/data/comparisons";
-import { CATEGORIES } from "@/data/categories";
+import { publishedListings } from "@/lib/listings";
 import { SITE } from "@/lib/site";
 import { itemListLd, pageMetadata } from "@/lib/seo";
 import { formatDate, readingMinutes, sectionsText } from "@/lib/content";
@@ -52,7 +52,6 @@ export default function HomePage() {
   const leadMins = readingMinutes(lead.quickAnswer, sectionsText(lead.sections));
   const h2h = COMPARISONS.find((c) => c.slug === "chatgpt-vs-claude")!;
   const [ta, tb] = [toolBySlug(h2h.a)!, toolBySlug(h2h.b)!];
-  const total = ta.score + tb.score;
   const ranked = topTools(TOOLS.length);
 
   return (
@@ -80,8 +79,8 @@ export default function HomePage() {
               notes and Making Tax Digital checks.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link href="/tools" className="btn-primary px-5 py-3">
-                Explore {TOOLS.length} AI tools <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              <Link href="/ai-tools/" className="btn-primary px-5 py-3">
+                Explore {TOOLS.length} tools <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link href="/guides" className="btn-secondary px-5 py-3">
                 <BookOpen className="h-4 w-4" aria-hidden="true" /> Read the latest guides
@@ -96,8 +95,8 @@ export default function HomePage() {
       <section aria-label="At a glance" className="container-site -mt-px py-6">
         <Reveal className="grid grid-cols-2 gap-2 rounded-xl border border-rule bg-surface-lowest p-2 md:grid-cols-4">
           {[
-            [`${TOOLS.length}+`, "Tools reviewed", "text-ink"],
-            ["£ GBP", "Pricing checked", "text-brand"],
+            [`${TOOLS.filter((t) => t.score != null).length}`, `Tested · ${TOOLS.length} listed`, "text-ink"],
+            ["£ GBP", "Sterling price notes", "text-brand"],
             ["UK GDPR", "Data notes on every tool", "text-teal"],
             [`${GUIDES.length + COMPARISONS.length}`, "Guides & comparisons", "text-ink"],
           ].map(([v, l, c]) => (
@@ -125,7 +124,7 @@ export default function HomePage() {
                   {leadMins} min read • Updated <time dateTime={lead.updated}>{formatDate(lead.updated)}</time>
                 </p>
                 <h2 className="mt-2 font-serif text-headline-md text-ink md:text-headline-lg">
-                  <Link href={`/guides/${lead.slug}`} className="after:absolute after:inset-0 group-hover:underline">
+                  <Link href={guidePath(lead)} className="after:absolute after:inset-0 group-hover:underline">
                     {lead.title}
                   </Link>
                 </h2>
@@ -148,7 +147,7 @@ export default function HomePage() {
                     <span className="block truncate text-body-md font-semibold text-ink">{t.name}</span>
                     <span className="block truncate text-caption text-slate-mute">{t.bestFor}</span>
                   </span>
-                  <span className="tnum rounded bg-ink px-1.5 py-0.5 text-[12px] font-bold text-white">{t.score.toFixed(1)}</span>
+                  <span className="tnum rounded bg-ink px-1.5 py-0.5 text-[12px] font-bold text-white">{t.score != null ? t.score.toFixed(1) : "–"}</span>
                 </Link>
               </li>
             ))}
@@ -185,21 +184,17 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="rounded-lg bg-white/10 p-4 backdrop-blur">
-                <div className="flex items-center justify-between text-caption">
-                  <span className="text-periwinkle-light">{ta.name}</span>
-                  <span className="tnum font-bold">{ta.score.toFixed(1)} vs {tb.score.toFixed(1)}</span>
-                  <span className="text-brand-fixed">{tb.name}</span>
-                </div>
-                <div className="mt-2 flex h-2 overflow-hidden rounded-full bg-white/20">
-                  <div className="h-full bg-teal-dim" style={{ width: `${(ta.score / total) * 100}%` }} />
-                  <div className="h-full bg-brand-fixed" style={{ width: `${(tb.score / total) * 100}%` }} />
-                </div>
-                <div className="mt-1.5 flex justify-between text-[10px] text-periwinkle">
-                  <span>Versatility winner</span>
-                  <span>Writing & documents winner</span>
-                </div>
-                <Link href={`/compare/${h2h.slug}`} className="btn mt-4 w-full bg-white text-ink hover:bg-surface">
-                  Read the full verdict <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                <dl className="grid gap-3 text-body-sm">
+                  {[ta, tb].map((t) => (
+                    <div key={t.slug}>
+                      <dt className="font-semibold text-white">{t.name}</dt>
+                      <dd className="text-periwinkle">Suits: {t.bestFor}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-3 text-[11px] text-periwinkle">No overall winner — the right pick depends on your work.</p>
+                <Link href={`/compare/${h2h.slug}/`} className="btn mt-4 w-full bg-white text-ink hover:bg-surface">
+                  Read the full comparison <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </div>
             </div>
@@ -210,15 +205,15 @@ export default function HomePage() {
       {/* Categories grid */}
       <section className="container-site py-8">
         <Reveal>
-          <SectionHead kicker="Directory" title="Browse every category" href="/categories" />
+          <SectionHead kicker="Directory" title="Browse popular categories" href="/ai-tools/" linkLabel="All AI tools" />
           <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-7">
-            {CATEGORIES.map((c) => (
-              <Link key={c.slug} href={`/categories/${c.slug}`} className="card group flex flex-col gap-2 p-4 transition hover:-translate-y-0.5 hover:border-rule-strong hover:shadow-pop">
+            {publishedListings().filter((l) => l.kind === "category" && l.gate === "index").slice(0, 14).map((c) => (
+              <Link key={c.path} href={c.path} className="card group flex flex-col gap-2 p-4 transition hover:-translate-y-0.5 hover:border-rule-strong hover:shadow-pop">
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-tint text-brand transition group-hover:bg-brand group-hover:text-white">
                   <Icon name={c.icon} className="h-5 w-5" />
                 </span>
-                <span className="text-body-md font-semibold leading-tight text-ink">{c.short}</span>
-                <span className="text-caption text-slate-mute">{toolsByCategory(c.slug).length} tools</span>
+                <span className="text-body-md font-semibold leading-tight text-ink">{c.category?.short ?? c.name}</span>
+                <span className="text-caption text-slate-mute">{c.tools.length} tools · {c.root === "ai-tools" ? "AI" : "Software"}</span>
               </Link>
             ))}
           </div>

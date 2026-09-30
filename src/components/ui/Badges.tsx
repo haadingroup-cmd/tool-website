@@ -1,7 +1,13 @@
 import { BadgeCheck, Landmark } from "lucide-react";
 import type { Tool } from "@/lib/types";
 
-export function ScoreBadge({ score, size = "md" }: { score: number; size?: "md" | "lg" }) {
+export function ScoreBadge({ score, size = "md" }: { score?: number; size?: "md" | "lg" }) {
+  if (score == null)
+    return (
+      <span className="chip whitespace-nowrap border-rule-strong text-slate-mute" title="We score products only after hands-on testing">
+        Not yet scored
+      </span>
+    );
   return (
     <div className={`flex flex-col items-end`}>
       <span

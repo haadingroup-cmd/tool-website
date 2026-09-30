@@ -6,10 +6,10 @@ import { ArrowLeftRight, BookOpen, LayoutGrid, Newspaper, SearchCheck } from "lu
 
 const TABS = [
   { href: "/", label: "Home", Icon: Newspaper },
-  { href: "/tools", label: "Directory", Icon: LayoutGrid },
+  { href: "/ai-tools/", label: "Directory", Icon: LayoutGrid },
   { href: "/compare", label: "Compare", Icon: ArrowLeftRight },
   { href: "/guides", label: "Guides", Icon: BookOpen },
-  { href: "/search", label: "Search", Icon: SearchCheck },
+  { href: "/find-my-tool/", label: "Finder", Icon: SearchCheck },
 ] as const;
 
 export function MobileTabBar() {
@@ -18,7 +18,7 @@ export function MobileTabBar() {
     <nav aria-label="Quick navigation" className="glass pb-safe fixed inset-x-0 bottom-0 z-40 border-t border-rule md:hidden">
       <ul className="flex h-16 items-center justify-around px-2">
         {TABS.map(({ href, label, Icon }) => {
-          const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
+          const active = href === "/" ? pathname === "/" : pathname.startsWith(href.replace(/\/$/, ""));
           return (
             <li key={href}>
               <Link

@@ -13,7 +13,7 @@ export function ToolMini({ tool }: { tool: Tool }) {
         <span className="block truncate text-body-md font-semibold text-ink">{tool.name}</span>
         <span className="block truncate text-caption text-slate-mute">{tool.pricing.from}</span>
       </span>
-      <span className="tnum rounded bg-ink px-1.5 py-0.5 text-[12px] font-bold text-white">{tool.score.toFixed(1)}</span>
+      <span className="tnum rounded bg-ink px-1.5 py-0.5 text-[12px] font-bold text-white">{tool.score != null ? tool.score.toFixed(1) : "–"}</span>
     </Link>
   );
 }

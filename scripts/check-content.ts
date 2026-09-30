@@ -1,35 +1,53 @@
-// Content integrity check: unique slugs, valid tool references and resolvable internal links.
+// Content integrity check: unique slugs, valid references, resolvable internal links,
+// redirect targets that exist, canonical comparison slugs and no comparison "winners".
 // Run with `npm run check:content`. Exits non-zero on any problem.
-import { TOOLS } from "../src/data/tools";
+import { readFileSync } from "node:fs";
+import { TOOLS } from "../src/lib/catalog";
 import { GUIDES } from "../src/data/guides";
 import { COMPARISONS } from "../src/data/comparisons";
-import { CATEGORIES } from "../src/data/categories";
+import { CATEGORIES } from "../src/data/taxonomy";
+import { allListings, publishedListings } from "../src/lib/listings";
+import { siteUrls } from "../src/lib/urls";
+import { segmentPages } from "../src/lib/segments";
+import { publishedAltPages } from "../src/lib/alternatives";
 import type { Block, Section } from "../src/lib/types";
 
 const errors: string[] = [];
 const toolSlugs = new Set(TOOLS.map((t) => t.slug));
-const catSlugs = new Set(CATEGORIES.map((c) => c.slug));
+const catKeys = new Set<string>(CATEGORIES.map((c) => c.key));
+const redirects: { source: string; destination: string }[] = JSON.parse(readFileSync(new URL("../src/data/redirects.json", import.meta.url), "utf8"));
 
 const dupes = (name: string, slugs: string[]) =>
   slugs.filter((s, i) => slugs.indexOf(s) !== i).forEach((s) => errors.push(`duplicate ${name} slug: ${s}`));
 dupes("tool", TOOLS.map((t) => t.slug));
 dupes("guide", GUIDES.map((g) => g.slug));
 dupes("comparison", COMPARISONS.map((c) => c.slug));
+dupes("category", CATEGORIES.map((c) => c.key));
 
+const norm = (p: string) => (p.length > 1 ? p.replace(/\/+$/, "") : p);
 const routes = new Set<string>([
-  "/", "/tools", "/categories", "/compare", "/guides", "/search", "/about", "/methodology", "/affiliate-disclosure",
-  "/privacy-policy", "/terms", "/contact", "/submit-tool", "/unsubscribe",
-  ...TOOLS.map((t) => `/tools/${t.slug}`),
-  ...GUIDES.map((g) => `/guides/${g.slug}`),
-  ...COMPARISONS.map((c) => `/compare/${c.slug}`),
-  ...CATEGORIES.map((c) => `/categories/${c.slug}`),
+  ...siteUrls().map((u) => norm(u.path)),
+  ...publishedListings().map((l) => norm(l.path)), // noindex listings still render
+  ...segmentPages().filter((p) => p.gate !== "skip").map((p) => norm(p.path)),
+  ...publishedAltPages().map((p) => `/alternatives/${p.tool.slug}`),
+  "/search", "/unsubscribe",
 ]);
+const redirectSources = new Set(redirects.map((r) => norm(r.source)));
+
+for (const r of redirects) {
+  if (r.destination.includes(":")) continue; // pattern redirects (e.g. /blog/:slug)
+  if (!routes.has(norm(r.destination))) errors.push(`redirect ${r.source} → ${r.destination}: destination does not exist`);
+  if (routes.has(norm(r.source))) errors.push(`redirect ${r.source}: source is still a live page`);
+}
 
 const checkText = (where: string, text: string) => {
   for (const m of text.matchAll(/\[[^\]]+\]\(([^)\s]+)\)/g)) {
     const href = m[1]!;
-    if (href.startsWith("/") && !routes.has(href.split("#")[0]!)) errors.push(`${where}: broken internal link ${href}`);
-    if (!href.startsWith("/") && !href.startsWith("https://")) errors.push(`${where}: non-https link ${href}`);
+    const path = norm(href.split("#")[0]!);
+    if (href.startsWith("/")) {
+      if (redirectSources.has(path)) errors.push(`${where}: links to redirected URL ${href}`);
+      else if (!routes.has(path)) errors.push(`${where}: broken internal link ${href}`);
+    } else if (!href.startsWith("https://")) errors.push(`${where}: non-https link ${href}`);
   }
 };
 const checkBlock = (where: string, b: Block) => {
@@ -47,9 +65,19 @@ const checkSections = (where: string, sections: Section[]) => {
 
 for (const t of TOOLS) {
   t.alternatives.forEach((a) => toolSlugs.has(a) || errors.push(`tool ${t.slug}: unknown alternative ${a}`));
-  t.categories.forEach((c) => catSlugs.has(c) || errors.push(`tool ${t.slug}: unknown category ${c}`));
-  if (t.score < 0 || t.score > 10) errors.push(`tool ${t.slug}: score out of range`);
+  if (!t.categories.length) errors.push(`tool ${t.slug}: no categories`);
+  t.categories.forEach((c) => catKeys.has(c) || errors.push(`tool ${t.slug}: unknown category ${c}`));
+  if (t.score != null && (t.score < 0 || t.score > 10)) errors.push(`tool ${t.slug}: score out of range`);
+  if (t.scores && t.score == null) errors.push(`tool ${t.slug}: sub-scores without an overall score`);
   if (!t.website.startsWith("https://")) errors.push(`tool ${t.slug}: website must be https`);
+  if (t.pricing.status && t.pricing.status !== "unverified" && !(t.pricing.sourceUrl && t.pricing.checkedAt))
+    errors.push(`tool ${t.slug}: verified price needs sourceUrl and checkedAt`);
+  for (const [k, f] of Object.entries(t.uk)) {
+    if (k === "ukIntegrations" || !f || typeof f !== "object" || !("status" in f)) continue;
+    if ((f.status === "official_verified" || f.status === "source_verified") && !(f.source && f.checkedAt))
+      errors.push(`tool ${t.slug}: uk.${k} marked verified without source/checkedAt`);
+  }
+  [t.summary, ...t.review].forEach((p) => checkText(`tool ${t.slug}`, p));
 }
 for (const g of GUIDES) {
   checkSections(`guide ${g.slug}`, g.sections);
@@ -59,13 +87,20 @@ for (const g of GUIDES) {
 }
 for (const c of COMPARISONS) {
   [c.a, c.b].forEach((s) => toolSlugs.has(s) || errors.push(`comparison ${c.slug}: unknown tool ${s}`));
+  if (!(c.a < c.b) || c.slug !== `${c.a}-vs-${c.b}`) errors.push(`comparison ${c.slug}: slug must be canonical "${[c.a, c.b].sort().join("-vs-")}" with a < b`);
+  if (/\b(winner|wins|our pick|the verdict)\b/i.test(`${c.summary} ${c.faqs.map((f) => f.a).join(" ")}`)) errors.push(`comparison ${c.slug}: declares a winner`);
   checkSections(`comparison ${c.slug}`, c.sections);
   c.faqs.forEach((f) => checkText(`comparison ${c.slug} faq`, f.a));
 }
-for (const c of CATEGORIES) if (!TOOLS.some((t) => t.categories.includes(c.slug))) errors.push(`category ${c.slug}: has no tools`);
+
+const L = allListings();
+const count = (g: string) => L.filter((l) => l.gate === g).length;
 
 if (errors.length) {
   console.error(`✗ ${errors.length} content problem(s):\n${errors.map((e) => `  - ${e}`).join("\n")}`);
   process.exit(1);
 }
-console.log(`✓ content OK — ${TOOLS.length} tools, ${GUIDES.length} guides, ${COMPARISONS.length} comparisons, ${CATEGORIES.length} categories`);
+console.log(
+  `✓ content OK — ${TOOLS.length} products, ${GUIDES.length} guides, ${COMPARISONS.length} comparisons, ${CATEGORIES.length} categories; ` +
+    `listings: ${count("index")} indexed, ${count("noindex")} noindex, ${count("skip")} not generated; ${siteUrls().length} sitemap URLs`,
+);

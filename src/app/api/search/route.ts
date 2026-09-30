@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { searchSchema } from "@/lib/validation";
 import { clientIp, json, rateLimit } from "@/lib/security";
 import { search } from "@/lib/search";
+import { matchTools, parseIntent } from "@/lib/intent";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,5 +14,7 @@ export async function GET(req: NextRequest) {
   const parsed = searchSchema.safeParse({ q: req.nextUrl.searchParams.get("q") ?? "" });
   if (!parsed.success) return json({ ok: true, results: [] });
 
-  return json({ ok: true, results: search(parsed.data.q) });
+  const intent = parseIntent(parsed.data.q);
+  const matches = matchTools(intent).map((t) => ({ name: t.name, href: `/tools/${t.slug}/`, bestFor: t.bestFor, free: t.pricing.freePlan }));
+  return json({ ok: true, results: search(parsed.data.q), understood: matches.length ? intent.labels : [], matches });
 }

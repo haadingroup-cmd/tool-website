@@ -125,7 +125,7 @@ export const GUIDES_3: Guide[] = [
         blocks: [
           {
             type: "p",
-            text: "If your combined gross income from self-employment and property is above the threshold, yes. Qualifying income is calculated before expenses, so a sole trader turning over £55,000 with £30,000 of costs is still in scope from April 2026. Check your position with [HMRC's eligibility tool on GOV.UK](https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax). Our [MTD timeline guide](/guides/making-tax-digital-ai-accounting-software) has the full detail.",
+            text: "If your combined gross income from self-employment and property is above the threshold, yes. Qualifying income is calculated before expenses, so a sole trader turning over £55,000 with £30,000 of costs is still in scope from April 2026. Check your position with [HMRC's eligibility tool on GOV.UK](https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax). Our [MTD timeline guide](/uk/making-tax-digital/software/) has the full detail.",
           },
         ],
       },

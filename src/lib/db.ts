@@ -6,7 +6,7 @@ import "server-only";
  * so only the service-role key (kept on the server) can read or write.
  */
 
-type Table = "subscribers" | "contact_messages" | "tool_submissions";
+type Table = "subscribers" | "contact_messages" | "tool_submissions" | "claim_requests" | "events";
 type Row = Record<string, unknown>;
 
 export const dbConfigured = () => Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);

@@ -1,4 +1,4 @@
-import { GUIDES } from "@/data/guides";
+import { GUIDES, guidePath } from "@/data/guides";
 import { GuideCard } from "@/components/content/GuideCard";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { Reveal } from "@/components/ui/Reveal";
@@ -16,7 +16,7 @@ export const metadata = pageMetadata({
 export default function GuidesPage() {
   return (
     <div className="container-site py-8">
-      <JsonLd data={itemListLd("SmarterBiz.uk guides", GUIDES.map((g) => ({ name: g.title, path: `/guides/${g.slug}` })))} />
+      <JsonLd data={itemListLd("SmarterBiz.uk guides", GUIDES.map((g) => ({ name: g.title, path: guidePath(g) })))} />
       <Breadcrumbs items={[{ name: "Guides", path: "/guides" }]} />
       <header className="mt-4 max-w-3xl">
         <h1 className="font-serif text-headline-xl-mobile text-ink md:text-headline-xl">Guides &amp; investigations</h1>

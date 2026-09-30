@@ -1,11 +1,15 @@
 import {
-  BadgeCheck, Clapperboard, Handshake, Headset, Megaphone, Mic, PenLine, Presentation, Receipt, Rocket, Scale,
-  ScanSearch, SearchCheck, ShieldAlert, ShieldCheck, Sparkles, Store, Trophy, Workflow, Zap, type LucideProps,
+  BadgeCheck, Boxes, Building2, Clapperboard, Code, CreditCard, FileText, Globe, GraduationCap, Handshake, HardHat, Headset,
+  HeartPulse, Image, KanbanSquare, Landmark, LifeBuoy, LineChart, Mail, Megaphone, MessagesSquare, Mic, Music, Package, Palette,
+  PenLine, Presentation, Receipt, Rocket, Scale, ScanSearch, SearchCheck, Share2, ShieldAlert, ShieldCheck, Sparkles, Store,
+  Trophy, Users, UtensilsCrossed, Video, Wallet, Workflow, Zap, type LucideProps,
 } from "lucide-react";
 
 const ICONS = {
-  BadgeCheck, Clapperboard, Handshake, Headset, Megaphone, Mic, PenLine, Presentation, Receipt, Rocket, Scale,
-  ScanSearch, SearchCheck, ShieldAlert, ShieldCheck, Sparkles, Store, Trophy, Workflow, Zap,
+  BadgeCheck, Boxes, Building2, Clapperboard, Code, CreditCard, FileText, Globe, GraduationCap, Handshake, HardHat, Headset,
+  HeartPulse, Image, KanbanSquare, Landmark, LifeBuoy, LineChart, Mail, Megaphone, MessagesSquare, Mic, Music, Package, Palette,
+  PenLine, Presentation, Receipt, Rocket, Scale, ScanSearch, SearchCheck, Share2, ShieldAlert, ShieldCheck, Sparkles, Store,
+  Trophy, Users, UtensilsCrossed, Video, Wallet, Workflow, Zap,
 } as const;
 
 export function Icon({ name, ...props }: { name: string } & LucideProps) {

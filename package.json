@@ -12,7 +12,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "check:content": "tsx --tsconfig tsconfig.json scripts/check-content.ts",
-    "postbuild": "node scripts/indexnow.mjs"
+    "postbuild": "node scripts/indexnow.mjs",
+    "db:seed-sql": "tsx --tsconfig tsconfig.json scripts/db-seed.ts"
   },
   "dependencies": {
     "lucide-react": "^1.48.0",

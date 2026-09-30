@@ -1,6 +1,6 @@
 import type { Comparison } from "@/lib/types";
 
-export const COMPARISONS: Comparison[] = [
+const RAW: Comparison[] = [
   {
     slug: "chatgpt-vs-claude",
     a: "chatgpt",
@@ -12,17 +12,16 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["chatgpt vs claude", "claude vs chatgpt", "claude vs chatgpt for business", "is claude better than chatgpt"],
     published: "2026-01-20",
     updated: "2026-09-24",
-    verdict:
-      "Claude edges it for UK small businesses that care most about writing quality, contracts and long documents. ChatGPT wins on versatility — images, voice, custom GPTs and the biggest ecosystem. Many businesses happily use both.",
-    winner: "b",
+    summary:
+      "ChatGPT and Claude are both leading general AI assistants with similar entry pricing. Claude is strongest at long documents, contract review and natural British English; ChatGPT has the broader feature set — image generation, voice mode, custom GPTs and the largest integration ecosystem.",
     criteria: [
-      { name: "Writing quality & British English", a: "Very good; US spelling by default", b: "Excellent; natural British tone", winner: "b" },
-      { name: "Long documents & contracts", a: "Strong", b: "Best in class", winner: "b" },
-      { name: "Image generation", a: "Built in", b: "Not built in", winner: "a" },
-      { name: "Integrations & custom assistants", a: "Custom GPTs, largest ecosystem", b: "Projects & connectors", winner: "a" },
-      { name: "Data analysis", a: "Excellent", b: "Excellent", winner: "tie" },
-      { name: "Business data training defaults", a: "Off on Business/Enterprise", b: "Off on Team/Enterprise/API", winner: "tie" },
-      { name: "Entry price", a: "~£20/month (Plus)", b: "~£18/month (Pro)", winner: "tie" },
+      { name: "Writing quality & British English", a: "Very good; US spelling by default", b: "Excellent; natural British tone" },
+      { name: "Long documents & contracts", a: "Strong", b: "Best in class" },
+      { name: "Image generation", a: "Built in", b: "Not built in" },
+      { name: "Integrations & custom assistants", a: "Custom GPTs, largest ecosystem", b: "Projects & connectors" },
+      { name: "Data analysis", a: "Excellent", b: "Excellent" },
+      { name: "Business data training defaults", a: "Off on Business/Enterprise", b: "Off on Team/Enterprise/API" },
+      { name: "Entry price", a: "~£20/month (Plus)", b: "~£18/month (Pro)" },
     ],
     pickA: [
       "You want one tool for writing, images, voice and data analysis",
@@ -72,7 +71,7 @@ export const COMPARISONS: Comparison[] = [
     ],
   },
   {
-    slug: "microsoft-copilot-vs-gemini",
+    slug: "gemini-vs-microsoft-365-copilot",
     a: "microsoft-365-copilot",
     b: "gemini",
     title: "Microsoft 365 Copilot vs Gemini for Workspace: Which Should Your Business Use?",
@@ -82,15 +81,14 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["copilot vs gemini", "microsoft copilot vs google gemini", "gemini vs copilot for business"],
     published: "2026-03-02",
     updated: "2026-09-24",
-    verdict:
-      "Choose the one that matches your office suite. Copilot is best for Microsoft 365 businesses; Gemini is best for Google Workspace businesses — and is often already included in your plan, making it better value.",
-    winner: "tie",
+    summary:
+      "Each assistant works best inside its own office suite: Microsoft 365 Copilot inside Outlook, Word, Excel and Teams; Gemini inside Gmail, Docs, Sheets and Meet, where it is often included in the Workspace plan.",
     criteria: [
-      { name: "Office integration", a: "Outlook, Word, Excel, PowerPoint, Teams", b: "Gmail, Docs, Sheets, Slides, Meet", winner: "tie" },
-      { name: "Value", a: "Full Copilot is a paid add-on", b: "Included in many Workspace plans", winner: "b" },
-      { name: "Meeting summaries", a: "Excellent in Teams", b: "Good in Meet", winner: "a" },
-      { name: "Research", a: "Good", b: "Excellent (Deep Research, NotebookLM)", winner: "b" },
-      { name: "Compliance & data residency", a: "Strong, UK datacentre options", b: "Strong, data regions on some editions", winner: "a" },
+      { name: "Office integration", a: "Outlook, Word, Excel, PowerPoint, Teams", b: "Gmail, Docs, Sheets, Slides, Meet" },
+      { name: "Value", a: "Full Copilot is a paid add-on", b: "Included in many Workspace plans" },
+      { name: "Meeting summaries", a: "Excellent in Teams", b: "Good in Meet" },
+      { name: "Research", a: "Good", b: "Excellent (Deep Research, NotebookLM)" },
+      { name: "Compliance & data residency", a: "Strong, UK datacentre options", b: "Strong, data regions on some editions" },
     ],
     pickA: ["You run on Microsoft 365 and Teams", "You need strong compliance controls", "Meetings dominate your week"],
     pickB: ["You run on Google Workspace", "You want AI included in your existing plan", "You do lots of research"],
@@ -124,15 +122,14 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["chatgpt vs gemini", "gemini vs chatgpt", "gemini or chatgpt for business"],
     published: "2026-04-14",
     updated: "2026-09-24",
-    verdict:
-      "ChatGPT is the better standalone assistant with more features. Gemini is the better choice if you work in Google Workspace, where it may already be included in your plan.",
-    winner: "a",
+    summary:
+      "ChatGPT offers the broader standalone feature set and ecosystem. Gemini is built into Google Workspace, is often included in Workspace plans and has strong research features.",
     criteria: [
-      { name: "Standalone features", a: "Broadest feature set", b: "Strong", winner: "a" },
-      { name: "Google Workspace integration", a: "Via connectors", b: "Native", winner: "b" },
-      { name: "Research", a: "Deep research", b: "Deep Research + NotebookLM", winner: "b" },
-      { name: "Custom assistants", a: "Custom GPTs", b: "Gems", winner: "a" },
-      { name: "Value", a: "Separate subscription", b: "Often included in Workspace", winner: "b" },
+      { name: "Standalone features", a: "Broadest feature set", b: "Strong" },
+      { name: "Google Workspace integration", a: "Via connectors", b: "Native" },
+      { name: "Research", a: "Deep research", b: "Deep Research + NotebookLM" },
+      { name: "Custom assistants", a: "Custom GPTs", b: "Gems" },
+      { name: "Value", a: "Separate subscription", b: "Often included in Workspace" },
     ],
     pickA: ["You want the most capable standalone assistant", "You don't use Google Workspace", "You want custom GPTs"],
     pickB: ["You use Gmail, Docs and Sheets daily", "You want AI included in your existing plan", "You do document-heavy research"],
@@ -156,7 +153,7 @@ export const COMPARISONS: Comparison[] = [
     ],
   },
   {
-    slug: "xero-vs-quickbooks",
+    slug: "quickbooks-vs-xero",
     a: "xero",
     b: "quickbooks",
     title: "Xero vs QuickBooks UK: Which AI Accounting Software Is Best?",
@@ -166,16 +163,15 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["xero vs quickbooks uk", "quickbooks vs xero", "best accounting software uk small business"],
     published: "2026-02-25",
     updated: "2026-09-24",
-    verdict:
-      "Xero is our pick for most UK small businesses thanks to its accountant ecosystem and UK bank feeds. QuickBooks is excellent for sole traders who want strong mobile bookkeeping, and both are HMRC-recognised for MTD.",
-    winner: "a",
+    summary:
+      "Both are HMRC-recognised Making Tax Digital platforms with AI-assisted bookkeeping and similar entry pricing. Xero is very widely used by UK accountants and has a large app marketplace; QuickBooks is known for its mobile app and frequent introductory offers.",
     criteria: [
-      { name: "MTD for VAT & Income Tax", a: "Yes", b: "Yes", winner: "tie" },
-      { name: "UK accountant support", a: "Very widely supported", b: "Widely supported", winner: "a" },
-      { name: "Mobile app", a: "Good", b: "Excellent", winner: "b" },
-      { name: "AI features", a: "JAX assistant, reconciliation suggestions", b: "Intuit Assist, categorisation", winner: "tie" },
-      { name: "Integrations", a: "Very large marketplace", b: "Large marketplace", winner: "a" },
-      { name: "Pricing", a: "From ~£16/month", b: "From ~£16/month; frequent intro offers", winner: "tie" },
+      { name: "MTD for VAT & Income Tax", a: "Yes", b: "Yes" },
+      { name: "UK accountant support", a: "Very widely supported", b: "Widely supported" },
+      { name: "Mobile app", a: "Good", b: "Excellent" },
+      { name: "AI features", a: "JAX assistant, reconciliation suggestions", b: "Intuit Assist, categorisation" },
+      { name: "Integrations", a: "Very large marketplace", b: "Large marketplace" },
+      { name: "Pricing", a: "From ~£16/month", b: "From ~£16/month; frequent intro offers" },
     ],
     pickA: ["You work with an accountant or bookkeeper", "You need lots of integrations", "You're VAT-registered and growing"],
     pickB: ["You're a sole trader managing books on your phone", "You want MTD for Income Tax made simple", "You like intro discounts"],
@@ -194,12 +190,12 @@ export const COMPARISONS: Comparison[] = [
     faqs: [
       {
         q: "Is Xero or QuickBooks better in the UK?",
-        a: "Xero is slightly better for most UK small businesses because of its accountant ecosystem and integrations. QuickBooks is better for sole traders who prefer mobile bookkeeping. Both are MTD-recognised.",
+        a: "It depends on how you work. Xero suits businesses that work closely with an accountant and want a large integration marketplace; QuickBooks suits sole traders who prefer managing their books on a phone. Both are MTD-recognised.",
       },
     ],
   },
   {
-    slug: "zapier-vs-make",
+    slug: "make-vs-zapier",
     a: "zapier",
     b: "make",
     title: "Zapier vs Make: Which Automation Tool Is Best for AI Workflows?",
@@ -209,16 +205,15 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["zapier vs make", "make vs zapier", "best automation tool for small business"],
     published: "2026-05-19",
     updated: "2026-09-24",
-    verdict:
-      "Zapier is best for beginners and the widest range of apps. Make is best for complex or high-volume workflows on a budget, and offers EU hosting.",
-    winner: "tie",
+    summary:
+      "Zapier is the easier of the two to learn and connects the most apps. Make offers a visual builder suited to complex logic, is typically cheaper at high volumes and offers EU hosting.",
     criteria: [
-      { name: "Ease of use", a: "Easiest", b: "Moderate", winner: "a" },
-      { name: "App library", a: "Largest", b: "Large", winner: "a" },
-      { name: "Complex logic", a: "Good", b: "Excellent", winner: "b" },
-      { name: "Price at volume", a: "Higher", b: "Lower", winner: "b" },
-      { name: "EU hosting", a: "No (US)", b: "Yes", winner: "b" },
-      { name: "AI agents", a: "Yes", b: "Yes", winner: "tie" },
+      { name: "Ease of use", a: "Easiest", b: "Moderate" },
+      { name: "App library", a: "Largest", b: "Large" },
+      { name: "Complex logic", a: "Good", b: "Excellent" },
+      { name: "Price at volume", a: "Higher", b: "Lower" },
+      { name: "EU hosting", a: "No (US)", b: "Yes" },
+      { name: "AI agents", a: "Yes", b: "Yes" },
     ],
     pickA: ["You're new to automation", "You need an obscure app integration", "Speed of setup matters most"],
     pickB: ["You run high volumes", "You need branching and data transformation", "You prefer EU data hosting"],
@@ -252,15 +247,14 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["fathom vs fireflies", "best ai meeting notes", "ai notetaker"],
     published: "2026-06-03",
     updated: "2026-09-24",
-    verdict:
-      "Fathom wins for individuals and small teams thanks to its generous free plan and fast summaries. Fireflies is better for sales teams who want searchable history and conversation analytics.",
-    winner: "a",
+    summary:
+      "Fathom has a generous free plan and concise summaries. Fireflies focuses on searchable call history and conversation analytics for sales teams.",
     criteria: [
-      { name: "Free plan", a: "Very generous", b: "Limited storage", winner: "a" },
-      { name: "Summary quality", a: "Excellent, concise", b: "Good, detailed", winner: "a" },
-      { name: "Search across meetings", a: "Good", b: "Excellent", winner: "b" },
-      { name: "Analytics", a: "Basic", b: "Conversation analytics", winner: "b" },
-      { name: "CRM sync", a: "Yes", b: "Yes", winner: "tie" },
+      { name: "Free plan", a: "Very generous", b: "Limited storage" },
+      { name: "Summary quality", a: "Excellent, concise", b: "Good, detailed" },
+      { name: "Search across meetings", a: "Good", b: "Excellent" },
+      { name: "Analytics", a: "Basic", b: "Conversation analytics" },
+      { name: "CRM sync", a: "Yes", b: "Yes" },
     ],
     pickA: ["You want great free meeting notes", "You value concise summaries"],
     pickB: ["You run a sales team", "You want to search across every call"],
@@ -284,7 +278,7 @@ export const COMPARISONS: Comparison[] = [
     ],
   },
   {
-    slug: "chatgpt-vs-copilot",
+    slug: "chatgpt-vs-microsoft-365-copilot",
     a: "chatgpt",
     b: "microsoft-365-copilot",
     title: "ChatGPT vs Microsoft Copilot: Which Should a UK Business Use?",
@@ -294,16 +288,15 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["chatgpt vs copilot", "copilot vs chatgpt", "microsoft copilot or chatgpt for business"],
     published: "2026-09-25",
     updated: "2026-09-25",
-    verdict:
-      "Microsoft 365 Copilot is the better choice for businesses that live in Outlook, Teams and SharePoint, because it works on your own emails, meetings and files. ChatGPT is the better standalone assistant — more versatile, cheaper for individuals and not tied to one office suite.",
-    winner: "tie",
+    summary:
+      "Microsoft 365 Copilot works inside Outlook, Teams and SharePoint using your own work data. ChatGPT is a standalone assistant with a broader feature set that isn't tied to one office suite.",
     criteria: [
-      { name: "Works inside Office apps", a: "Via connectors", b: "Native in Outlook, Word, Excel, Teams", winner: "b" },
-      { name: "Standalone versatility", a: "Broadest feature set", b: "Good", winner: "a" },
-      { name: "Grounded in your work data", a: "Via connected files", b: "Emails, meetings, chats and files", winner: "b" },
-      { name: "Compliance & data residency", a: "Strong on Business/Enterprise", b: "Inherits Microsoft 365 controls", winner: "b" },
-      { name: "Cost for a small team", a: "Plus or per-seat Business plan", b: "Copilot Chat free; full Copilot paid add-on", winner: "tie" },
-      { name: "Image generation & voice", a: "Built in", b: "Available, less central", winner: "a" },
+      { name: "Works inside Office apps", a: "Via connectors", b: "Native in Outlook, Word, Excel, Teams" },
+      { name: "Standalone versatility", a: "Broadest feature set", b: "Good" },
+      { name: "Grounded in your work data", a: "Via connected files", b: "Emails, meetings, chats and files" },
+      { name: "Compliance & data residency", a: "Strong on Business/Enterprise", b: "Inherits Microsoft 365 controls" },
+      { name: "Cost for a small team", a: "Plus or per-seat Business plan", b: "Copilot Chat free; full Copilot paid add-on" },
+      { name: "Image generation & voice", a: "Built in", b: "Available, less central" },
     ],
     pickA: ["You use Google Workspace or a mix of tools", "You want images, voice and custom GPTs", "Budget per person matters most"],
     pickB: ["Your business runs on Microsoft 365 and Teams", "Meetings and email dominate your week", "You need enterprise compliance controls"],
@@ -341,15 +334,14 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["claude vs gemini", "gemini vs claude", "claude or gemini for business"],
     published: "2026-09-25",
     updated: "2026-09-25",
-    verdict:
-      "Claude is the better assistant for writing, contracts and long-document work. Gemini is better value for Google Workspace businesses, where it's built into Gmail, Docs and Sheets and often included in the plan, and it excels at research.",
-    winner: "b",
+    summary:
+      "Claude is strongest for writing, contracts and long documents. Gemini is built into Google Workspace, is often included in the plan and has strong research features.",
     criteria: [
-      { name: "Writing quality & British English", a: "Excellent", b: "Good", winner: "a" },
-      { name: "Long documents & contracts", a: "Best in class", b: "Strong", winner: "a" },
-      { name: "Google Workspace integration", a: "Via connectors", b: "Native", winner: "b" },
-      { name: "Research", a: "Good, with web search", b: "Excellent (Deep Research, NotebookLM)", winner: "b" },
-      { name: "Value", a: "Separate subscription", b: "Often included in Workspace", winner: "b" },
+      { name: "Writing quality & British English", a: "Excellent", b: "Good" },
+      { name: "Long documents & contracts", a: "Best in class", b: "Strong" },
+      { name: "Google Workspace integration", a: "Via connectors", b: "Native" },
+      { name: "Research", a: "Good, with web search", b: "Excellent (Deep Research, NotebookLM)" },
+      { name: "Value", a: "Separate subscription", b: "Often included in Workspace" },
     ],
     pickA: ["Client-facing writing matters most", "You review contracts and long reports", "You use Microsoft 365 or mixed tools"],
     pickB: ["You run on Google Workspace", "You want AI included in your plan", "You do lots of research"],
@@ -383,16 +375,15 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["canva vs gamma", "gamma vs canva", "best ai presentation maker"],
     published: "2026-09-25",
     updated: "2026-09-25",
-    verdict:
-      "Gamma produces better presentations faster from an outline or document. Canva is the better all-round design platform — choose it if you also need social posts, print and video, or your brand kit already lives there.",
-    winner: "b",
+    summary:
+      "Gamma focuses on generating and restructuring presentations quickly. Canva is an all-round design platform covering social, print, video and presentations.",
     criteria: [
-      { name: "First-draft deck quality", a: "Good, template-led", b: "Excellent", winner: "b" },
-      { name: "Editing & restructuring", a: "Slide-by-slide", b: "Fast card-based editing", winner: "b" },
-      { name: "Beyond presentations", a: "Social, print, video, docs", b: "Docs and simple web pages", winner: "a" },
-      { name: "Brand control", a: "Brand Kit", b: "Themes", winner: "a" },
-      { name: "PowerPoint export", a: "Yes", b: "Yes", winner: "tie" },
-      { name: "Price", a: "Pro ~£11/month", b: "Plus ~£8–£10/month", winner: "tie" },
+      { name: "First-draft deck quality", a: "Good, template-led", b: "Excellent" },
+      { name: "Editing & restructuring", a: "Slide-by-slide", b: "Fast card-based editing" },
+      { name: "Beyond presentations", a: "Social, print, video, docs", b: "Docs and simple web pages" },
+      { name: "Brand control", a: "Brand Kit", b: "Themes" },
+      { name: "PowerPoint export", a: "Yes", b: "Yes" },
+      { name: "Price", a: "Pro ~£11/month", b: "Plus ~£8–£10/month" },
     ],
     pickA: ["You need one design tool for everything", "Your Brand Kit is already in Canva", "You create lots of social content"],
     pickB: ["Presentations are the main job", "You start from documents or outlines", "You want share links with analytics"],
@@ -426,16 +417,15 @@ export const COMPARISONS: Comparison[] = [
     keywords: ["hubspot vs pipedrive", "pipedrive vs hubspot", "best crm for small business uk"],
     published: "2026-09-25",
     updated: "2026-09-25",
-    verdict:
-      "HubSpot is the better choice for most small businesses because its free CRM is excellent and marketing, sales and service live in one place. Pipedrive is better for small sales teams who want the simplest possible pipeline without paying for extras they won't use.",
-    winner: "a",
+    summary:
+      "HubSpot offers a free CRM with marketing, sales and service tools in one platform. Pipedrive focuses on a simple, visual sales pipeline with predictable per-seat pricing.",
     criteria: [
-      { name: "Free plan", a: "Free CRM, no user limit", b: "Trial only", winner: "a" },
-      { name: "Ease of use for sales", a: "Good", b: "Excellent", winner: "b" },
-      { name: "Marketing & service tools", a: "Built in", b: "Add-ons", winner: "a" },
-      { name: "AI features", a: "Breeze assistant & agents", b: "AI sales assistant", winner: "a" },
-      { name: "Price as you grow", a: "Professional tiers get expensive", b: "Predictable per seat", winner: "b" },
-      { name: "GDPR tools", a: "Consent & subscription management", b: "GDPR features included", winner: "tie" },
+      { name: "Free plan", a: "Free CRM, no user limit", b: "Trial only" },
+      { name: "Ease of use for sales", a: "Good", b: "Excellent" },
+      { name: "Marketing & service tools", a: "Built in", b: "Add-ons" },
+      { name: "AI features", a: "Breeze assistant & agents", b: "AI sales assistant" },
+      { name: "Price as you grow", a: "Professional tiers get expensive", b: "Predictable per seat" },
+      { name: "GDPR tools", a: "Consent & subscription management", b: "GDPR features included" },
     ],
     pickA: ["You want to start free", "You need marketing and service too", "You want AI agents"],
     pickB: ["You run a small B2B sales team", "You want the simplest pipeline", "You prefer predictable per-seat pricing"],
@@ -454,10 +444,18 @@ export const COMPARISONS: Comparison[] = [
     faqs: [
       {
         q: "Is HubSpot better than Pipedrive?",
-        a: "HubSpot is better for most small businesses thanks to its free CRM and all-in-one platform. Pipedrive is better for small sales teams that want a simple, visual pipeline.",
+        a: "HubSpot suits businesses that want a free start and marketing, sales and service in one platform. Pipedrive suits small sales teams that want a simple, visual pipeline.",
       },
     ],
   },
 ];
+
+/** Canonical order: tools sorted alphabetically by slug, so each pair has exactly one URL (blueprint §L). */
+const canonical = (c: Comparison): Comparison =>
+  c.a < c.b
+    ? c
+    : { ...c, a: c.b, b: c.a, pickA: c.pickB, pickB: c.pickA, criteria: c.criteria.map((r) => ({ name: r.name, a: r.b, b: r.a })) };
+
+export const COMPARISONS: Comparison[] = RAW.map(canonical);
 
 export const comparisonBySlug = (slug: string) => COMPARISONS.find((c) => c.slug === slug);

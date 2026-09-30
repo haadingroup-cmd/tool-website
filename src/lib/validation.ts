@@ -62,10 +62,22 @@ export const submitToolSchema = z.object({
   startedAt,
 });
 
+export const claimSchema = z.object({
+  productSlug: z.string().trim().max(80).regex(/^[a-z0-9-]+$/, "Please choose a product."),
+  contactName: cleanLine(100, 2, "Your name"),
+  email,
+  jobTitle: cleanLine(100, 2, "Job title"),
+  companyDomain: z.string().trim().toLowerCase().max(120).regex(/^([a-z0-9-]+\.)+[a-z]{2,}$/, "Enter your company domain, e.g. example.com"),
+  message: cleanText(2000, 0, "Message").optional().default(""),
+  website: honeypot,
+  startedAt,
+});
+
 export const searchSchema = z.object({
   q: z.string().trim().min(1).max(80),
 });
 
 export type SubscribeInput = z.infer<typeof subscribeSchema>;
 export type ContactInput = z.infer<typeof contactSchema>;
+export type ClaimInput = z.infer<typeof claimSchema>;
 export type SubmitToolInput = z.infer<typeof submitToolSchema>;

@@ -1,4 +1,4 @@
-import { GUIDES } from "@/data/guides";
+import { GUIDES, guidePath } from "@/data/guides";
 import { COMPARISONS } from "@/data/comparisons";
 import { SITE, absoluteUrl } from "@/lib/site";
 import { escapeXml } from "@/lib/xml";
@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 
 export function GET() {
   const items = [
-    ...GUIDES.map((g) => ({ title: g.title, url: absoluteUrl(`/guides/${g.slug}`), desc: g.description, date: g.updated })),
+    ...GUIDES.map((g) => ({ title: g.title, url: absoluteUrl(guidePath(g)), desc: g.description, date: g.updated })),
     ...COMPARISONS.map((c) => ({ title: c.title, url: absoluteUrl(`/compare/${c.slug}`), desc: c.description, date: c.updated })),
   ].sort((a, b) => b.date.localeCompare(a.date));
 

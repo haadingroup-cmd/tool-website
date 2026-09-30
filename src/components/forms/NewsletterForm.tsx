@@ -48,7 +48,7 @@ export function NewsletterForm({ source = "site", variant = "light" }: { source?
       {variant !== "compact" && (
         <p className="flex items-center gap-1 text-caption text-slate-mute">
           <ShieldCheck className="h-3.5 w-3.5 text-teal" aria-hidden="true" />
-          No spam. Unsubscribe anytime. See our <a href="/privacy-policy" className="underline">privacy policy</a>.
+          No spam. Unsubscribe anytime. See our <a href="/privacy-policy/" className="underline">privacy policy</a>.
         </p>
       )}
     </form>

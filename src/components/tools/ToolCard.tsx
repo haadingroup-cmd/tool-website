@@ -3,8 +3,9 @@ import { ArrowUpRight, ChevronRight, ShieldCheck } from "lucide-react";
 import type { Tool } from "@/lib/types";
 import { ToolLogo } from "@/components/ui/ToolLogo";
 import { ScoreBadge, ToolChips } from "@/components/ui/Badges";
-import { categoryName } from "@/data/categories";
+import { categoryShort } from "@/data/taxonomy";
 import { outboundRel, outboundUrl } from "@/lib/outbound";
+import { OutboundLink } from "@/components/tools/OutboundLink";
 
 export function ToolCard({ tool, rank }: { tool: Tool; rank?: number }) {
   return (
@@ -20,7 +21,7 @@ export function ToolCard({ tool, rank }: { tool: Tool; rank?: number }) {
               </Link>
             </h3>
             <p className="truncate text-caption text-slate-mute">
-              {tool.vendor} • {categoryName(tool.categories[0]!)}
+              {tool.vendor} • {categoryShort(tool.categories[0]!)}
             </p>
           </div>
         </div>
@@ -37,15 +38,9 @@ export function ToolCard({ tool, rank }: { tool: Tool; rank?: number }) {
           <span className="truncate">UK notes inside</span>
         </span>
         <div className="relative z-10 flex items-center gap-2">
-          <a
-            href={outboundUrl(tool)}
-            target="_blank"
-            rel={outboundRel(tool)}
-            className="btn-ghost px-2.5 py-1.5 text-body-sm"
-            aria-label={`Visit ${tool.name} website (opens in new tab)`}
-          >
+          <OutboundLink href={outboundUrl(tool)} rel={outboundRel(tool)} slug={tool.slug} className="btn-ghost px-2.5 py-1.5 text-body-sm" label={`Visit ${tool.name} website (opens in new tab)`}>
             Visit <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-          </a>
+          </OutboundLink>
           <Link href={`/tools/${tool.slug}`} className="btn-primary px-3 py-1.5 text-body-sm">
             Review <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>

@@ -1,5 +1,9 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
+
+// 301 map, shared with scripts/check-content.ts (which checks every destination exists).
+const REDIRECTS = JSON.parse(readFileSync(new URL("./src/data/redirects.json", import.meta.url), "utf8"));
 
 /** @type {import('next').NextConfig} */
 
@@ -43,7 +47,7 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
-  trailingSlash: false,
+  trailingSlash: true,
   images: {
     formats: ["image/avif", "image/webp"],
     dangerouslyAllowSVG: false,
@@ -68,14 +72,11 @@ const nextConfig = {
     ];
   },
   async redirects() {
-    return [
-      { source: "/directory", destination: "/tools", permanent: true },
-      { source: "/blog", destination: "/guides", permanent: true },
-      { source: "/blog/:slug", destination: "/guides/:slug", permanent: true },
-      { source: "/comparisons", destination: "/compare", permanent: true },
-      { source: "/editorial-standards", destination: "/methodology", permanent: true },
-      { source: "/how-we-test", destination: "/methodology", permanent: true },
-    ];
+    // Match both /old and /old/ so legacy URLs reach their destination in a single 301 hop.
+    return REDIRECTS.flatMap((r) => [
+      { ...r, permanent: true },
+      { ...r, source: `${r.source.replace(/\/$/, "")}/`, permanent: true },
+    ]);
   },
 };
 

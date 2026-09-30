@@ -107,6 +107,7 @@ export const GUIDES_2: Guide[] = [
   },
   {
     slug: "making-tax-digital-ai-accounting-software",
+    path: "/uk/making-tax-digital/software/",
     title: "Making Tax Digital 2026: The Best AI Accounting Software for UK Businesses",
     metaTitle: "Making Tax Digital 2026: Best MTD Accounting Software (AI Picks)",
     description:

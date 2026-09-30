@@ -3,7 +3,7 @@ import { AffiliateDisclosure } from "@/components/content/Disclosure";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { FaqList } from "@/components/ui/Faq";
-import { TOOLS, topTools } from "@/data/tools";
+import { TOOLS, topTools } from "@/lib/catalog";
 import { SITE } from "@/lib/site";
 import { itemListLd, pageMetadata } from "@/lib/seo";
 

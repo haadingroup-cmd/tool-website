@@ -1,8 +1,8 @@
 import "server-only";
 import { SITE, absoluteUrl } from "./site";
 import { oneClickUrl, unsubscribeUrl } from "./tokens";
-import { topTools } from "@/data/tools";
-import { featuredGuide } from "@/data/guides";
+import { topTools } from "@/lib/catalog";
+import { featuredGuide, guidePath } from "@/data/guides";
 
 /** Transactional email via Resend's REST API. Optional: does nothing unless configured. */
 export const emailConfigured = () => Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
@@ -35,7 +35,7 @@ export async function sendWelcomeEmail(email: string): Promise<boolean> {
 
   const guide = featuredGuide();
   const tools = topTools(3);
-  const guideUrl = absoluteUrl(`/guides/${guide.slug}`);
+  const guideUrl = absoluteUrl(guidePath(guide));
 
   const html = `<!doctype html><html lang="en-GB"><body style="margin:0;background:#f7f9fb;font-family:Arial,Helvetica,sans-serif;color:#191c1e">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
@@ -46,7 +46,7 @@ export async function sendWelcomeEmail(email: string): Promise<boolean> {
 <p style="font-size:15px;line-height:24px;color:#45464d">Start with our flagship guide: <a href="${esc(guideUrl)}" style="color:#2563EB">${esc(guide.title)}</a>.</p>
 <p style="font-size:13px;font-weight:bold;letter-spacing:.04em;text-transform:uppercase;color:#0F172A;margin-top:24px">Top rated right now</p>
 <ul style="padding-left:18px;font-size:15px;line-height:24px;color:#45464d">${tools
-    .map((t) => `<li><a href="${esc(absoluteUrl(`/tools/${t.slug}`))}" style="color:#2563EB">${esc(t.name)}</a> — ${t.score.toFixed(1)}/10, ${esc(t.bestFor.toLowerCase())}</li>`)
+    .map((t) => `<li><a href="${esc(absoluteUrl(`/tools/${t.slug}`))}" style="color:#2563EB">${esc(t.name)}</a> — ${t.score != null ? `${t.score.toFixed(1)}/10, ` : ""}${esc(t.bestFor.toLowerCase())}</li>`)
     .join("")}</ul></td></tr>
 <tr><td style="padding:20px 28px 28px;border-top:1px solid #E2E8F0;font-size:12px;line-height:18px;color:#64748B">
 You're receiving this because you subscribed at ${esc(SITE.url.replace(/^https?:\/\//, ""))}. <a href="${esc(unsub)}" style="color:#64748B">Unsubscribe</a> at any time.

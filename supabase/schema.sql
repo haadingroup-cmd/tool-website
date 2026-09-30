@@ -44,3 +44,17 @@ revoke all on public.subscribers, public.contact_messages, public.tool_submissio
 
 create index if not exists contact_messages_created_idx on public.contact_messages (created_at desc);
 create index if not exists tool_submissions_status_idx on public.tool_submissions (status, created_at desc);
+
+-- Listing claim requests from vendors (no login needed; verified manually by email/domain before any change).
+create table if not exists public.claim_requests (
+  id bigint generated always as identity primary key,
+  product_slug text not null check (product_slug ~ '^[a-z0-9-]+$'),
+  contact_name text not null check (char_length(contact_name) between 2 and 100),
+  email citext not null,
+  job_title text not null check (char_length(job_title) between 2 and 100),
+  company_domain text not null check (char_length(company_domain) between 3 and 120),
+  message text check (char_length(message) <= 2000),
+  created_at timestamptz not null default now(),
+  status text not null default 'new' check (status in ('new','verified','rejected'))
+);
+alter table public.claim_requests enable row level security;
