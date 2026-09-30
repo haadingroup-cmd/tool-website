@@ -22,13 +22,13 @@ export const MTD_FACTS: OfficialFact[] = [
   {
     id: "itsa-dates",
     says: "Making Tax Digital for Income Tax applies to sole traders and landlords from 6 April 2026 if qualifying income is over £50,000, from 6 April 2027 if over £30,000, and from 6 April 2028 if over £20,000.",
-    source: { title: "GOV.UK — Check if you're eligible for Making Tax Digital for Income Tax", url: "https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax" },
+    source: { title: "GOV.UK — Find out if and when you need to use Making Tax Digital for Income Tax", url: "https://www.gov.uk/guidance/find-out-if-and-when-you-need-to-use-making-tax-digital-for-income-tax" },
     status: "unverified",
   },
   {
     id: "qualifying-income",
     says: "Qualifying income is the total gross income (before expenses) from self-employment and property, taken from an earlier Self Assessment tax return.",
-    source: { title: "GOV.UK — Check if you're eligible for Making Tax Digital for Income Tax", url: "https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax" },
+    source: { title: "GOV.UK — Work out your qualifying income for Making Tax Digital for Income Tax", url: "https://www.gov.uk/guidance/work-out-your-qualifying-income-for-making-tax-digital-for-income-tax" },
     status: "unverified",
   },
   {
@@ -65,7 +65,7 @@ export const MTD_EXPLAINED: { heading: string; text: string }[] = [
 ];
 
 export const MTD_FAQS: Faq[] = [
-  { q: "When did Making Tax Digital for Income Tax start?", a: "It started on 6 April 2026 for sole traders and landlords with qualifying income over £50,000, according to GOV.UK. The threshold falls to £30,000 from April 2027 and £20,000 from April 2028. Always check the [GOV.UK eligibility guidance](https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax) for your situation." },
+  { q: "When did Making Tax Digital for Income Tax start?", a: "It started on 6 April 2026 for sole traders and landlords with qualifying income over £50,000, according to GOV.UK. The threshold falls to £30,000 from April 2027 and £20,000 from April 2028. Always check the [GOV.UK eligibility guidance](https://www.gov.uk/guidance/find-out-if-and-when-you-need-to-use-making-tax-digital-for-income-tax) for your situation." },
   { q: "Is qualifying income calculated before or after expenses?", a: "Before expenses. It is your gross income from self-employment and property combined, per GOV.UK's eligibility guidance." },
   { q: "Which software is MTD compatible?", a: "HMRC publishes the official list on GOV.UK. Products on SmarterBiz marked \"MTD\" are listed by their vendors as compatible — we label that status clearly and you should confirm on HMRC's list. See our [MTD software guide](/uk/making-tax-digital/software/)." },
   { q: "Do I still need an accountant?", a: "MTD doesn't require one, but many sole traders and landlords keep one for year-end adjustments and tax planning. Most accounting products let you invite your accountant for free." },

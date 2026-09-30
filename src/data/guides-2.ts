@@ -142,7 +142,7 @@ export const GUIDES_2: Guide[] = [
           },
           {
             type: "p",
-            text: "Qualifying income is your total gross income from self-employment and property before expenses. Always confirm your position using [HMRC's official MTD guidance on GOV.UK](https://www.gov.uk/guidance/check-if-youre-eligible-for-making-tax-digital-for-income-tax), as rules and exemptions can change.",
+            text: "Qualifying income is your total gross income from self-employment and property before expenses. Always confirm your position using [HMRC's official MTD guidance on GOV.UK](https://www.gov.uk/guidance/find-out-if-and-when-you-need-to-use-making-tax-digital-for-income-tax), as rules and exemptions can change.",
           },
         ],
       },

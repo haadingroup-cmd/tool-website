@@ -22,7 +22,9 @@ The owner communicates in Roman Urdu; keep instructions step by step and one sma
    `update profiles set role = 'admin' where user_id = (select id from auth.users where email = '<their email>');`
    then test on the preview: `/admin/`, a review on any product page, `/vendor/`.
    Local test rig: PostgreSQL 16 (port 5433, socket /var/tmp) + PostgREST binary + a small GoTrue stand-in; see commit message of the reviews commit.
-6. **Verify UK facts & prices** (network now open): set `status`, `source`, `checkedAt` in `src/data/tool-meta.ts` / `src/data/uk.ts` / pricing; `check:content` enforces sources.
+6. **Verify UK facts & prices — BLOCKED (30 Sep 2026)**: this session's egress proxy still denies www.gov.uk and vendor domains
+   (curl and WebFetch both refused) although the owner set network to Full; retry in a new session. Only the GOV.UK MTD source URLs were
+   updated to the current page addresses (found via web search); nothing was marked verified. When the network works: set `status`, `source`, `checkedAt` in `src/data/tool-meta.ts` / `src/data/uk.ts` / pricing; `check:content` enforces sources.
 7. Then ask the owner for: author details, domain, Resend, Turnstile, DataForSEO (see `docs/ACCESS-CHECKLIST.md`), and whether to merge PR #1.
 
 Testing without keys: local PostgreSQL 16 at `/usr/lib/postgresql/16/bin` (run as `postgres`, data dir under /var/tmp), plus Playwright (`npm root -g`/playwright). Real end-to-end checks happen on the Vercel preview.
