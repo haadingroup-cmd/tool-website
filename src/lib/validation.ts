@@ -78,8 +78,11 @@ export const searchSchema = z.object({
   q: z.string().trim().min(1).max(80),
 });
 
+const turnstileToken = z.string().max(4096).optional();
+
 export const loginSchema = z.object({
   email,
+  turnstileToken,
   next: z.string().max(200).optional(),
   website: honeypot,
   startedAt,
@@ -111,6 +114,7 @@ export const reviewSchema = z.object({
   durationOfUse: z.enum(["<6m", "6-12m", "1-2y", "2y+"], { error: "Please say how long you have used it." }),
   connection: z.enum(["none", "competitor", "partner"], { error: "Please declare any connection." }),
   honest: z.literal(true, { error: "Please confirm your review is honest and based on your own use." }),
+  turnstileToken,
   website: honeypot,
   startedAt,
 });

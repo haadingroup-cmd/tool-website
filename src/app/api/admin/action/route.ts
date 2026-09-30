@@ -7,6 +7,8 @@ import { firstIssue, handleWriteError } from "@/lib/api";
 import { audit } from "@/lib/audit";
 import { STAFF_ROLES, getCurrentUser, getProfile } from "@/lib/auth/session";
 import { REVIEWS_TAG } from "@/lib/reviews";
+import { userEmail } from "@/lib/auth/admin";
+import { emailConfigured, sendClaimDecisionEmail, sendReviewDecisionEmail } from "@/lib/email";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -27,15 +29,23 @@ type Action = z.infer<typeof actionSchema>;
 const now = () => new Date().toISOString();
 
 async function refreshProductPage(productId: number) {
-  const [p] = await selectRows<{ slug: string }>("products", { id: `eq.${productId}` }, "slug", { limit: 1 });
+  const [p] = await selectRows<{ slug: string; name: string }>("products", { id: `eq.${productId}` }, "slug,name", { limit: 1 });
   revalidateTag(REVIEWS_TAG);
   if (p) revalidatePath(`/tools/${p.slug}/`);
+  return p;
+}
+
+/** Best effort: a failed or unconfigured email never undoes or blocks the decision. */
+async function notify(userId: string, sendTo: (email: string) => Promise<boolean>) {
+  if (!emailConfigured()) return;
+  const email = await userEmail(userId);
+  if (email) await sendTo(email).catch(() => false);
 }
 
 async function run(a: Action, actor: string): Promise<boolean> {
   switch (a.kind) {
     case "review": {
-      const [before] = await selectRows<{ status: string; product_id: number }>("reviews", { id: `eq.${a.id}` }, "status,product_id", { limit: 1 });
+      const [before] = await selectRows<{ status: string; product_id: number; user_id: string }>("reviews", { id: `eq.${a.id}` }, "status,product_id,user_id", { limit: 1 });
       if (!before) return false;
       if (a.decision !== "keep") {
         const status = a.decision === "publish" ? "published" : "rejected";
@@ -51,12 +61,17 @@ async function run(a: Action, actor: string): Promise<boolean> {
       }
       // Any decision closes the open reports on this review.
       await updateRows("review_reports", { review_id: `eq.${a.id}`, resolved_at: "is.null" }, { resolved_at: now(), resolved_by: actor });
-      await refreshProductPage(before.product_id);
+      const product = await refreshProductPage(before.product_id);
+      // Tell the reviewer only when their review's visibility actually changes.
+      const published = a.decision === "publish";
+      if (product && a.decision !== "keep" && (before.status === "published") !== published) {
+        await notify(before.user_id, (to) => sendReviewDecisionEmail(to, { productName: product.name, productSlug: product.slug, published, reason: a.note || undefined }));
+      }
       return true;
     }
     case "claim": {
-      const [c] = await selectRows<{ status: string; product_id: number; user_id: string; products: { company_id: number | null } | null }>(
-        "listing_claims", { id: `eq.${a.id}` }, "status,product_id,user_id,products(company_id)", { limit: 1 },
+      const [c] = await selectRows<{ status: string; product_id: number; user_id: string; products: { company_id: number | null; name: string } | null }>(
+        "listing_claims", { id: `eq.${a.id}` }, "status,product_id,user_id,products(company_id,name)", { limit: 1 },
       );
       if (!c) return false;
       if (a.decision === "verify") {
@@ -70,6 +85,10 @@ async function run(a: Action, actor: string): Promise<boolean> {
         await updateRows("listing_claims", { id: `eq.${a.id}` }, { status: "rejected", reviewed_by: actor, notes: a.note || null });
       }
       await audit(actor, `claim.${a.decision}`, "listing_claims", a.id, { status: c.status }, { note: a.note });
+      if (c.products) {
+        const productName = c.products.name;
+        await notify(c.user_id, (to) => sendClaimDecisionEmail(to, { productName, verified: a.decision === "verify", reason: a.note || undefined }));
+      }
       return true;
     }
     case "claim_request":

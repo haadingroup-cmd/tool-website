@@ -26,8 +26,9 @@ import type { Faq, Tool } from "@/lib/types";
 import { reviewsFor } from "@/lib/reviews";
 import { UserReviews } from "@/components/reviews/UserReviews";
 
-export const dynamicParams = false;
 // Static pages, refreshed hourly (and immediately when a moderator publishes a review).
+// dynamicParams stays on: with it off, Next can't regenerate these pages ("NoFallbackError") under
+// trailingSlash. Unknown slugs still 404 through notFound() below.
 export const revalidate = 3600;
 export const generateStaticParams = () => TOOLS.map((t) => ({ slug: t.slug }));
 

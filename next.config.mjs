@@ -12,14 +12,17 @@ const isDev = process.env.NODE_ENV !== "production";
 // Strict CSP: everything is self-hosted (fonts via next/font, local SVG graphics, no third-party scripts).
 // 'unsafe-inline' for scripts is required by Next.js' inline hydration payload on statically generated pages;
 // all other vectors (object, base, framing, form targets) are locked down.
+// Cloudflare Turnstile (captcha) is the one third-party origin, allowed only once its site key is configured.
+const turnstile = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? " https://challenges.cloudflare.com" : "";
+
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${turnstile}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
   `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
-  "frame-src 'none'",
+  turnstile ? `frame-src${turnstile}` : "frame-src 'none'",
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",

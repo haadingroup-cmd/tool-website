@@ -16,6 +16,7 @@ Last updated: 30 September 2026. Decisions applied: D1 `/best/{slug}/`, D2 singl
 | Admin | `/admin/` (roles moderator/editor/analyst/admin from `profiles.role`, everyone else gets 404): overview counts, review queue (waiting/reported/published/rejected), listing claims + public claim requests, vendor change requests, tool submissions, contact messages, audit log. Every decision goes through `/api/admin/action` and writes `audit_log`. |
 | Vendors | `/vendor/`: signed-in users claim a listing (company-email match flagged for the moderator); once verified (role → vendor, `vendor_accounts` row) they send change requests with evidence. Scores, verdicts and reviews are never vendor-editable. |
 | SEO dashboard | `/admin/seo/` (analyst/editor/admin): sitemap counts per child sitemap, quality score + gate for every generated listing/segment/alternatives page, noindex / not-generated filters, fact-verification counters. |
+| Optional services | Code ready, switched on by env vars alone: Cloudflare Turnstile on sign-in and review forms (fails closed once configured; CSP allows Cloudflare only then), Upstash shared rate limits in every form endpoint (falls back to in-memory), Resend emails for review and claim decisions (reviewer email via the GoTrue admin API). |
 | 10 Verification | check:content, typecheck, lint, build, full crawl (238 pages, 0 errors, 0 broken links, valid JSON-LD, sitemap = indexable pages), Playwright desktop + mobile (no console errors, no overflow), API tests. |
 
 ## Honest labels still on the site (need real checks)
@@ -27,4 +28,4 @@ Last updated: 30 September 2026. Decisions applied: D1 `/best/{slug}/`, D2 singl
 
 - Reviews, admin, vendor dashboard and SEO dashboard are built and tested end to end against PostgreSQL 16 + PostgREST locally. They need `supabase/migrations/0002_reviews_moderation.sql` run once in Supabase and an admin role set on the owner's profile.
 - Keyword volumes for the quality gate need a keyword API (item 13).
-- Cloudflare Turnstile (item 8) and Upstash rate limiting (item 9) for public review submission.
+- Keys for Turnstile (item 8), Upstash (item 9) and Resend (item 7); the code is ready and waits for them.

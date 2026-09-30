@@ -35,8 +35,16 @@ export const CONNECTIONS = { none: "No connection", competitor: "Works for or wi
 
 let idCache: { at: number; map: Map<string, number> } | null = null;
 
-/** Database id for a catalogue slug (products are seeded from src/data, so slugs match). */
-export async function productId(slug: string): Promise<number | null> {
+/**
+ * Database id for a catalogue slug (products are seeded from src/data, so slugs match).
+ * `cached` puts the lookup in Next's data cache — required inside statically generated pages,
+ * where an uncached fetch would force the page to become dynamic.
+ */
+export async function productId(slug: string, cached = false): Promise<number | null> {
+  if (cached) {
+    const rows = await selectRows<{ id: number; slug: string }>("products", {}, "id,slug", { limit: 1000, revalidate: 86_400, tags: ["products"] });
+    return rows.find((r) => r.slug === slug)?.id ?? null;
+  }
   if (!idCache || Date.now() - idCache.at > 5 * 60_000) {
     const rows = await selectRows<{ id: number; slug: string }>("products", {}, "id,slug", { limit: 1000 });
     idCache = { at: Date.now(), map: new Map(rows.map((r) => [r.slug, r.id])) };
@@ -52,7 +60,7 @@ export async function productId(slug: string): Promise<number | null> {
 export async function reviewsFor(slug: string): Promise<{ reviews: PublicReview[]; summary: RatingSummary | null }> {
   if (!dbConfigured()) return { reviews: [], summary: null };
   try {
-    const id = await productId(slug);
+    const id = await productId(slug, true);
     if (id == null) return { reviews: [], summary: null };
     const cacheOpts = { revalidate: REVALIDATE, tags: [REVIEWS_TAG] };
     const [reviews, summary] = await Promise.all([

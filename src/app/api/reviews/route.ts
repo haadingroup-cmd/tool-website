@@ -6,6 +6,7 @@ import { DbWriteError, insertRow, selectRows } from "@/lib/db";
 import { fakeOk, firstIssue, handleWriteError } from "@/lib/api";
 import { ensureProfile, getCurrentUser } from "@/lib/auth/session";
 import { productId } from "@/lib/reviews";
+import { CAPTCHA_ERROR, verifyTurnstile } from "@/lib/turnstile";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -36,6 +37,7 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) return json({ ok: false, error: firstIssue(parsed.error) }, 422);
   const r = parsed.data;
   if (r.website || tooFast(r.startedAt)) return fakeOk();
+  if (!(await verifyTurnstile(r.turnstileToken, clientIp(req)))) return json({ ok: false, error: CAPTCHA_ERROR }, 403);
 
   try {
     const id = await productId(r.productSlug);

@@ -3,6 +3,7 @@
 import { Check, Loader2, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Honeypot, useSubmit } from "@/components/forms/useSubmit";
+import { Turnstile } from "@/components/forms/Turnstile";
 
 type Me = { signedIn: boolean; displayName?: string | null; reviewStatus?: string | null };
 
@@ -38,6 +39,8 @@ export function ReviewForm({ productSlug, productName }: { productSlug: string; 
   const [me, setMe] = useState<Me | null>(null);
   const [open, setOpen] = useState(false);
   const [ratings, setRatings] = useState<Record<string, number>>({});
+  const [token, setToken] = useState("");
+  const [attempt, setAttempt] = useState(0);
   const { status, message, submit } = useSubmit("/api/reviews");
 
   useEffect(() => {
@@ -53,8 +56,9 @@ export function ReviewForm({ productSlug, productName }: { productSlug: string; 
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const text = (k: string) => String(fd.get(k) ?? "");
-    await submit({
+    const ok = await submit({
       productSlug,
+      turnstileToken: token || undefined,
       ...ratings,
       title: text("title"),
       pros: text("pros"),
@@ -66,6 +70,7 @@ export function ReviewForm({ productSlug, productName }: { productSlug: string; 
       honest: fd.get("honest") === "on",
       website: text("website"),
     });
+    if (!ok) setAttempt((n) => n + 1); // a Turnstile token is single-use
   }
 
   if (!me) return <div className="card h-24 animate-pulse" aria-hidden="true" />;
@@ -171,6 +176,7 @@ export function ReviewForm({ productSlug, productName }: { productSlug: string; 
         <input type="checkbox" name="honest" required className="mt-1" />
         I have used {productName} for work, this review is my honest opinion, and I haven&apos;t been paid or rewarded for it.
       </label>
+      <Turnstile onToken={setToken} resetKey={attempt} />
       {status === "error" && <p role="alert" className="text-body-sm text-red-700">{message}</p>}
       <div className="flex flex-wrap items-center justify-end gap-3">
         <button type="button" className="btn-ghost" onClick={() => setOpen(false)}>Cancel</button>

@@ -69,3 +69,45 @@ Unsubscribe: ${unsub}`;
     headers: { "List-Unsubscribe": `<${oneClick}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
   });
 }
+
+// ---------- Transactional notices (account activity, so no marketing unsubscribe is needed) ----------
+
+function notice(heading: string, paragraphs: string[], link?: { href: string; label: string }) {
+  const html = `<!doctype html><html lang="en-GB"><body style="margin:0;background:#f7f9fb;font-family:Arial,Helvetica,sans-serif;color:#191c1e">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #E2E8F0;border-radius:8px">
+<tr><td style="padding:28px 28px 8px"><p style="margin:0;font-family:Georgia,serif;font-size:22px;font-weight:bold;color:#0F172A">SmarterBiz<span style="color:#2563EB">.uk</span></p></td></tr>
+<tr><td style="padding:8px 28px 28px"><h1 style="font-family:Georgia,serif;font-size:22px;line-height:28px;color:#0F172A;margin:12px 0">${esc(heading)}</h1>
+${paragraphs.map((p) => `<p style="font-size:15px;line-height:24px;color:#45464d">${esc(p)}</p>`).join("")}
+${link ? `<p><a href="${esc(link.href)}" style="color:#2563EB">${esc(link.label)}</a></p>` : ""}
+</td></tr></table></td></tr></table></body></html>`;
+  const text = [heading, "", ...paragraphs, ...(link ? ["", `${link.label}: ${link.href}`] : [])].join("\n");
+  return { html, text };
+}
+
+export async function sendReviewDecisionEmail(to: string, r: { productName: string; productSlug: string; published: boolean; reason?: string }) {
+  const { html, text } = r.published
+    ? notice(`Your ${r.productName} review is live`, [
+        "Thanks for sharing your experience. Your review has passed our checks and is now published.",
+      ], { href: absoluteUrl(`/tools/${r.productSlug}/#user-reviews`), label: "See your review" })
+    : notice(`Your ${r.productName} review wasn't published`, [
+        "Thanks for taking the time to write a review. It didn't meet our review policy, so we haven't published it.",
+        ...(r.reason ? [`Moderator's reason: ${r.reason}`] : []),
+        "If you think this is a mistake, reply to this email.",
+      ], { href: absoluteUrl("/review-policy/"), label: "Read our review policy" });
+  return send({ to: [to], subject: r.published ? "Your review is published" : "About your review", html, text });
+}
+
+export async function sendClaimDecisionEmail(to: string, c: { productName: string; verified: boolean; reason?: string }) {
+  const { html, text } = c.verified
+    ? notice(`You now manage ${c.productName}`, [
+        "Your listing claim has been verified. You can now send factual corrections, with evidence, from your vendor dashboard.",
+        "Our scores, verdicts and user reviews stay independent and can't be changed on request.",
+      ], { href: absoluteUrl("/vendor/"), label: "Open the vendor dashboard" })
+    : notice(`Your claim for ${c.productName}`, [
+        "We couldn't verify that you work for this vendor, so the claim wasn't approved.",
+        ...(c.reason ? [`Reason: ${c.reason}`] : []),
+        "Reply to this email with evidence (for example from your company email address) and we'll look again.",
+      ]);
+  return send({ to: [to], subject: c.verified ? "Your listing claim is verified" : "About your listing claim", html, text });
+}

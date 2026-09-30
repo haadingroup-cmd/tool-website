@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { loginSchema } from "@/lib/validation";
-import { guardPost, json, tooFast } from "@/lib/security";
+import { clientIp, guardPost, json, tooFast } from "@/lib/security";
+import { CAPTCHA_ERROR, verifyTurnstile } from "@/lib/turnstile";
 import { fakeOk, firstIssue } from "@/lib/api";
 import {
   AuthNotConfiguredError,
@@ -22,8 +23,9 @@ export async function POST(req: NextRequest) {
 
   const parsed = loginSchema.safeParse(guard.body);
   if (!parsed.success) return json({ ok: false, error: firstIssue(parsed.error) }, 422);
-  const { email, next, website, startedAt } = parsed.data;
+  const { email, next, website, startedAt, turnstileToken } = parsed.data;
   if (website || tooFast(startedAt)) return fakeOk();
+  if (!(await verifyTurnstile(turnstileToken, clientIp(req)))) return json({ ok: false, error: CAPTCHA_ERROR }, 403);
 
   // The link comes back to the host the user is on (production or a Vercel preview);
   // Supabase only honours it if it is in Authentication → URL Configuration → Redirect URLs.

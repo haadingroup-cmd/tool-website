@@ -3,15 +3,19 @@
 import { Loader2, Mail } from "lucide-react";
 import { useState } from "react";
 import { Honeypot, useSubmit } from "./useSubmit";
+import { Turnstile } from "./Turnstile";
 
 export function LoginForm({ next }: { next?: string }) {
   const { status, message, submit } = useSubmit("/api/auth/login");
   const [email, setEmail] = useState("");
+  const [token, setToken] = useState("");
+  const [attempt, setAttempt] = useState(0);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    await submit({ email, next, website: String(fd.get("website") ?? "") });
+    const ok = await submit({ email, next, turnstileToken: token || undefined, website: String(fd.get("website") ?? "") });
+    if (!ok) setAttempt((n) => n + 1); // a Turnstile token is single-use
   }
 
   if (status === "success") {
@@ -45,6 +49,7 @@ export function LoginForm({ next }: { next?: string }) {
           className="input font-normal"
         />
       </label>
+      <Turnstile onToken={setToken} resetKey={attempt} />
       {status === "error" && <p role="alert" className="text-body-sm text-red-700">{message}</p>}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-caption text-slate-mute">

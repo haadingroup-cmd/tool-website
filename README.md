@@ -42,7 +42,10 @@ npm run check:content && npm run typecheck && npm run lint && npm run build
       - `SUPABASE_URL` = your Supabase project URL
       - `SUPABASE_SERVICE_ROLE_KEY` = your service role key (**never** prefix it with `NEXT_PUBLIC_`)
       - `NEWSLETTER_SECRET` = 32+ random characters (`openssl rand -hex 32`), which signs unsubscribe links
-      - Optional: `RESEND_API_KEY` and `EMAIL_FROM` for welcome emails (verify your domain in Resend first)
+      - `SUPABASE_ANON_KEY` for sign-in (magic link)
+      - Optional: `RESEND_API_KEY` and `EMAIL_FROM` for welcome and moderation emails (verify your domain in Resend first)
+      - Optional: `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` (Cloudflare Turnstile captcha on sign-in and reviews)
+      - Optional: `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` (rate limits shared across servers)
       - Optional: `INDEXNOW_KEY` (`openssl rand -hex 16`), so every production deploy pings Bing (which also powers ChatGPT search)
    4. Deploy, then add your custom domain under **Settings → Domains**.
 3. **Search engines**
