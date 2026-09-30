@@ -12,8 +12,11 @@ The owner communicates in Roman Urdu; keep instructions step by step and one sma
 - No secret keys are available to Claude. Never ask for them in chat. The owner's other website uses a different Vercel project — don't touch it.
 
 ## Next work, in order
-1. **Auth (Supabase GoTrue, magic link)**: `/login/`, `/account/`, server-side session via httpOnly cookies, `profiles` row on first login.
-   Owner must set Supabase → Authentication → URL Configuration: Site URL + redirect URL for the preview and production domains (guide them step by step).
+1. **Auth — code done (30 Sep 2026)**: magic link + PKCE, no SDK (`src/lib/auth/gotrue.ts`, `src/lib/auth/session.ts`, `src/middleware.ts`),
+   `/login/`, `/account/` (display name, sign out), `/auth/callback/`, `profiles` row on first login. Tested end to end against a mock GoTrue/PostgREST.
+   **Still needed from the owner** (guide step by step): Supabase → Authentication → URL Configuration → Site URL + Redirect URLs
+   (`https://<production>/auth/callback/**` and `https://*-<vercel-team>.vercel.app/**`), then a real sign-in test on the Vercel preview.
+   Supabase's built-in email only reaches the project's team members and is heavily rate-limited — custom SMTP (Resend) is needed before real users sign in.
 2. **User reviews**: form on product pages (auth required), stored as `submitted`, rules from `/review-policy/`;
    show published reviews via `public_reviews`; AggregateRating JSON-LD only from `product_rating_summary` (≥3 reviews).
 3. **Moderation/admin UI** (`/admin/`, role in `profiles.role`): review queue, claim requests, tool submissions, contact messages, audit_log writes.

@@ -11,6 +11,7 @@ Last updated: 30 September 2026. Decisions applied: D1 `/best/{slug}/`, D2 singl
 | 3 Technical SEO | `trailingSlash: true` with canonical helper, 301 map (`src/data/redirects.json`), sitemap index + 4 child sitemaps from one URL registry (`src/lib/urls.ts`), quality gate, related-content links, `/go/` and `/search/` disallowed. |
 | 5–6 Comparisons & UK | Neutral comparisons (no winner, canonical `a-vs-b` slugs, UK facts side by side), `/alternatives/`, `/best/` (only with ≥3 tested products), `/uk/` hub, MTD cluster separating "What HMRC says" from "Our explanation". |
 | 7–9 Discovery | Industries, use cases, 10-step finder, rule-based natural-language search, 31 business-software listings (no invented prices or scores), `/go/` redirect, events API, claim-listing form, editorial / review policies, newsletter and author pages. |
+| Auth | Magic-link sign-in (Supabase GoTrue, PKCE), httpOnly cookie session refreshed by middleware on `/account/`, `/admin/`, `/api/account/`; `/login/`, `/account/`, sign out; `profiles` row created on first login with a neutral display name. Needs Supabase URL configuration + a preview test. |
 | 10 Verification | check:content, typecheck, lint, build, full crawl (238 pages, 0 errors, 0 broken links, valid JSON-LD, sitemap = indexable pages), Playwright desktop + mobile (no console errors, no overflow), API tests. |
 
 ## Honest labels still on the site (need real checks)
@@ -20,6 +21,6 @@ Last updated: 30 September 2026. Decisions applied: D1 `/best/{slug}/`, D2 singl
 
 ## Deferred (needs owner input — see ACCESS-CHECKLIST.md)
 
-- **Auth, user reviews, vendor dashboard, admin/moderation UI and SEO dashboard** need Supabase keys (item 4) and a real editor identity (item 5). The database side (tables, RLS, review view, rating threshold) is ready.
+- **User reviews, vendor dashboard, admin/moderation UI and SEO dashboard** need Supabase keys (item 4) and a real editor identity (item 5). The database side (tables, RLS, review view, rating threshold) is ready.
 - Keyword volumes for the quality gate need a keyword API (item 13).
 - Cloudflare Turnstile (item 8) and Upstash rate limiting (item 9) for public review submission.

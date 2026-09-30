@@ -77,6 +77,20 @@ export const searchSchema = z.object({
   q: z.string().trim().min(1).max(80),
 });
 
+export const loginSchema = z.object({
+  email,
+  next: z.string().max(200).optional(),
+  website: honeypot,
+  startedAt,
+});
+
+// Shown publicly next to reviews, so keep it to plain name characters.
+export const profileSchema = z.object({
+  displayName: cleanLine(50, 2, "Display name").pipe(
+    z.string().regex(/^[\p{L}\p{N} .'\-]+$/u, "Use letters, numbers, spaces, dots, apostrophes or hyphens only."),
+  ),
+});
+
 export type SubscribeInput = z.infer<typeof subscribeSchema>;
 export type ContactInput = z.infer<typeof contactSchema>;
 export type ClaimInput = z.infer<typeof claimSchema>;

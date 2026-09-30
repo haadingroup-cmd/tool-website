@@ -6,7 +6,7 @@ import "server-only";
  * so only the service-role key (kept on the server) can read or write.
  */
 
-type Table = "subscribers" | "contact_messages" | "tool_submissions" | "claim_requests" | "events";
+type Table = "subscribers" | "contact_messages" | "tool_submissions" | "claim_requests" | "events" | "profiles";
 type Row = Record<string, unknown>;
 
 export const dbConfigured = () => Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
@@ -52,7 +52,8 @@ export async function insertRow(table: Table, row: Row, opts: { ignoreDuplicates
     return true;
   }
   endpoint.searchParams.set("on_conflict", opts.ignoreDuplicatesOn);
-  endpoint.searchParams.set("select", "id");
+  // Return the conflict column(s): every table has them, not every table has an "id" (profiles).
+  endpoint.searchParams.set("select", opts.ignoreDuplicatesOn);
   const res = await request("POST", endpoint, key, row, "return=representation,resolution=ignore-duplicates", table);
   const inserted = (await res.json().catch(() => [])) as unknown[];
   return Array.isArray(inserted) && inserted.length > 0;
@@ -62,12 +63,36 @@ export async function insertRow(table: Table, row: Row, opts: { ignoreDuplicates
  * Updates rows matching simple filters (`column=eq.value` / `is.null` / `not.is.null`).
  * Returns the number of rows changed.
  */
-export async function updateRows(table: Table, filters: Record<string, string>, patch: Row): Promise<number> {
+export async function updateRows(table: Table, filters: Record<string, string>, patch: Row, keyColumn = "id"): Promise<number> {
   const { url, key } = conn();
   const endpoint = new URL(`/rest/v1/${table}`, url);
   for (const [col, expr] of Object.entries(filters)) endpoint.searchParams.set(col, expr);
-  endpoint.searchParams.set("select", "id");
+  endpoint.searchParams.set("select", keyColumn);
   const res = await request("PATCH", endpoint, key, patch, "return=representation", table);
   const rows = (await res.json().catch(() => [])) as unknown[];
   return Array.isArray(rows) ? rows.length : 0;
+}
+
+/** Reads rows matching simple filters. `columns` is a PostgREST select list. */
+export async function selectRows<T extends Row = Row>(
+  table: Table,
+  filters: Record<string, string>,
+  columns: string,
+  limit = 100,
+): Promise<T[]> {
+  const { url, key } = conn();
+  const endpoint = new URL(`/rest/v1/${table}`, url);
+  for (const [col, expr] of Object.entries(filters)) endpoint.searchParams.set(col, expr);
+  endpoint.searchParams.set("select", columns);
+  endpoint.searchParams.set("limit", String(limit));
+  const res = await fetch(endpoint, {
+    headers: { apikey: key, Authorization: `Bearer ${key}` },
+    cache: "no-store",
+    signal: AbortSignal.timeout(8000),
+  });
+  if (!res.ok) {
+    console.error(`[db] GET ${table} failed with status ${res.status}`);
+    throw new Error("Database read failed");
+  }
+  return (await res.json()) as T[];
 }

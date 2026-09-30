@@ -30,7 +30,7 @@ const routes = new Set<string>([
   ...publishedListings().map((l) => norm(l.path)), // noindex listings still render
   ...segmentPages().filter((p) => p.gate !== "skip").map((p) => norm(p.path)),
   ...publishedAltPages().map((p) => `/alternatives/${p.tool.slug}`),
-  "/search", "/unsubscribe",
+  "/search", "/unsubscribe", "/login", "/account",
 ]);
 const redirectSources = new Set(redirects.map((r) => norm(r.source)));
 
