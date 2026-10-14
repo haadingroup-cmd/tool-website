@@ -74,27 +74,6 @@ Content:
 
 Use Supabase **Table Editor**: `subscribers`, `contact_messages` and `tool_submissions`. Row Level Security is on with no public policies, so only your server (service role) can read or write them.
 
-## Daily client report
-
-Every morning at 07:00 UTC (8am in summer, 7am in winter) Vercel Cron calls `/api/cron/daily-report`, which emails a summary of the previous UK day:
-
-- new subscribers (with sign-up sources), unsubscribes and the active total
-- every new enquiry from the contact form (name, email, subject, message excerpt) and the unhandled backlog
-- every new tool submission (tool, category, pricing, contact) and how many are awaiting review
-
-Setup: configure Supabase and Resend as above, then add `REPORT_EMAIL` (comma-separated recipients) and `CRON_SECRET` (`openssl rand -hex 32`) in Vercel and redeploy. The schedule lives in `vercel.json`.
-
-Manual runs need the same secret:
-
-```bash
-# Re-send the report for a given day
-curl -H "Authorization: Bearer $CRON_SECRET" "https://www.yourdomain.co.uk/api/cron/daily-report?date=2026-10-13"
-# Preview the email in a browser-friendly HTML response without sending it
-curl -H "Authorization: Bearer $CRON_SECRET" "https://www.yourdomain.co.uk/api/cron/daily-report?preview=1" > report.html
-```
-
-Backlog figures count `contact_messages.handled = false` and `tool_submissions.status` in `pending`/`reviewing`, so update those in Supabase as you work through them.
-
 ## Notes
 
 - The rate limiter is in-memory, so each serverless instance applies its own limit. For strict global limits, swap `rateLimit()` in `src/lib/security.ts` for Upstash Redis or Vercel KV.
