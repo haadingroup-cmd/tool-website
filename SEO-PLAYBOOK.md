@@ -1,4 +1,4 @@
-# SmarterBiz.uk — SEO, AEO & GEO Playbook
+# HA Tools — SEO, AEO & GEO Playbook
 
 ## 1. Keyword research (UK, live data)
 
@@ -68,7 +68,7 @@ Pulled for **United Kingdom** on 24 Sep 2026 (seed: "ai tools for small business
 Publishing on high-authority platforms (LinkedIn Articles, Medium, Substack, YouTube and Reddit) can rank quickly. Google's **site reputation abuse** policy penalises third-party content placed on another site purely to exploit its ranking signals. Stay on the right side of it:
 
 - Publish **original, useful summaries** on platforms where you own the account: LinkedIn articles, a Medium publication, YouTube explainers.
-- When republishing a full article, set the **canonical** to the SmarterBiz.uk URL (Medium supports this), or publish a shorter take that links back.
+- When republishing a full article, set the **canonical** to the HA Tools URL (Medium supports this), or publish a shorter take that links back.
 - **Never** pay to place content on unrelated high-authority domains, and don't mass-produce pages.
 
 Suggested cadence: turn every new guide into one LinkedIn article, one short YouTube or Shorts video (Synthesia or Descript work well) and one Medium post with a canonical link.

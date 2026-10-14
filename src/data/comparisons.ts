@@ -41,11 +41,11 @@ export const COMPARISONS: Comparison[] = [
         blocks: [
           {
             type: "p",
-            text: "We ran both assistants through the same set of real UK small-business tasks: drafting a quote, rewriting terms and conditions in plain English, summarising a 60-page tender, building a cash-flow spreadsheet and replying to an unhappy customer. Both are excellent — the differences are in tone, features and ecosystem.",
+            text: "We compared both assistants on the jobs small businesses use them for most: drafting a quote, rewriting terms and conditions in plain English, summarising a long tender, building a cash-flow spreadsheet and replying to an unhappy customer. Both are excellent — the differences are in tone, features and ecosystem.",
           },
           {
             type: "p",
-            text: "**Claude** consistently produced writing that needed fewer edits before sending, with correct British spelling and a measured tone. It was also more faithful when summarising long documents. **ChatGPT** was faster to produce visuals, handled voice conversations and offered far more integrations through custom GPTs and connectors.",
+            text: "**Claude** generally produces writing that needs fewer edits before sending, with correct British spelling and a measured tone. It was also more faithful when summarising long documents. **ChatGPT** was faster to produce visuals, handled voice conversations and offered far more integrations through custom GPTs and connectors.",
           },
         ],
       },

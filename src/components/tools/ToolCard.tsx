@@ -34,7 +34,7 @@ export function ToolCard({ tool, rank }: { tool: Tool; rank?: number }) {
       <footer className="mt-auto flex items-center justify-between gap-3 border-t border-rule pt-4">
         <span className="flex min-w-0 items-center gap-1 text-caption text-teal-deep">
           <ShieldCheck className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-          <span className="truncate">UK notes inside</span>
+          <span className="truncate">UK &amp; US notes inside</span>
         </span>
         <div className="relative z-10 flex items-center gap-2">
           <a

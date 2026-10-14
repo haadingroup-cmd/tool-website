@@ -12,9 +12,9 @@ export function llmsTxt() {
 > ${SITE.description}
 
 Key facts:
-- Audience: UK small businesses, sole traders and SME directors.
-- All prices are indicative GBP entry-level prices and may exclude VAT; readers are told to confirm on vendor sites.
-- Every tool is scored out of 10 on value (£), ease of use, UK fit (UK GDPR, HMRC Making Tax Digital, British English) and features.
+- Audience: small businesses, sole traders, freelancers and SME directors in the United Kingdom and the United States.
+- Prices are indicative entry-level prices in GBP (UK) and USD (US) and may exclude VAT or sales tax; readers are told to confirm on vendor sites.
+- Every tool is scored out of 10 on value, ease of use, UK & US fit (UK GDPR and US state privacy laws, HMRC Making Tax Digital and US bookkeeping/sales tax, language) and features.
 - Rankings are editorial; vendors cannot pay for placement. Methodology: ${absoluteUrl("/methodology")}
 - Last updated: ${SITE.lastUpdated}
 
@@ -42,9 +42,10 @@ export function llmsFullTxt() {
     (t) => `### ${t.name} (${t.vendor}) — ${t.score.toFixed(1)}/10
 URL: ${absoluteUrl(`/tools/${t.slug}`)}
 Best for: ${t.bestFor}
-Price (indicative): ${t.pricing.from}; free plan: ${t.pricing.freePlan ? "yes" : "no"}${t.mtdCompatible ? "; HMRC MTD-recognised" : ""}${t.ukBuilt ? "; UK-built" : ""}
+Price (indicative): UK ${t.pricing.from}; US ${t.pricing.usd}; free plan: ${t.pricing.freePlan ? "yes" : "no"}${t.mtdCompatible ? "; HMRC MTD-recognised" : ""}${t.ukBuilt ? "; UK-built" : ""}
 Summary: ${t.summary}
 UK notes: ${t.ukNotes}
+US notes: ${t.usNotes}
 Pros: ${t.pros.join("; ")}
 Cons: ${t.cons.join("; ")}`,
   ).join("\n\n");

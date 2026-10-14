@@ -40,9 +40,9 @@ export async function sendWelcomeEmail(email: string): Promise<boolean> {
   const html = `<!doctype html><html lang="en-GB"><body style="margin:0;background:#f7f9fb;font-family:Arial,Helvetica,sans-serif;color:#191c1e">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #E2E8F0;border-radius:8px">
-<tr><td style="padding:28px 28px 8px"><p style="margin:0;font-family:Georgia,serif;font-size:22px;font-weight:bold;color:#0F172A">SmarterBiz<span style="color:#2563EB">.uk</span></p></td></tr>
+<tr><td style="padding:28px 28px 8px"><p style="margin:0;font-family:Georgia,serif;font-size:22px;font-weight:bold;color:#0F172A">HA <span style="color:#2563EB">Tools</span></p></td></tr>
 <tr><td style="padding:8px 28px"><h1 style="font-family:Georgia,serif;font-size:24px;line-height:30px;color:#0F172A;margin:12px 0">Cheers — you're on the list.</h1>
-<p style="font-size:15px;line-height:24px;color:#45464d">Every Thursday you'll get three tested AI tools, one time-saving workflow and the UK regulatory updates (HMRC, ICO) that matter to small businesses.</p>
+<p style="font-size:15px;line-height:24px;color:#45464d">Every Thursday you'll get three AI tools worth knowing, one time-saving workflow and the UK and US rule changes that matter to small businesses.</p>
 <p style="font-size:15px;line-height:24px;color:#45464d">Start with our flagship guide: <a href="${esc(guideUrl)}" style="color:#2563EB">${esc(guide.title)}</a>.</p>
 <p style="font-size:13px;font-weight:bold;letter-spacing:.04em;text-transform:uppercase;color:#0F172A;margin-top:24px">Top rated right now</p>
 <ul style="padding-left:18px;font-size:15px;line-height:24px;color:#45464d">${tools
@@ -54,7 +54,7 @@ You're receiving this because you subscribed at ${esc(SITE.url.replace(/^https?:
 
   const text = `Cheers — you're on the list.
 
-Every Thursday: three tested AI tools, one time-saving workflow and UK regulatory updates.
+Every Thursday: three AI tools worth knowing, one time-saving workflow and UK and US rule changes.
 
 Start here: ${guide.title}
 ${guideUrl}
@@ -63,7 +63,7 @@ Unsubscribe: ${unsub}`;
 
   return send({
     to: [email],
-    subject: "Welcome to the SmarterBiz Thursday Briefing",
+    subject: "Welcome to the HA Tools Thursday Briefing",
     html,
     text,
     headers: { "List-Unsubscribe": `<${oneClick}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },

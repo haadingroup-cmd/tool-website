@@ -21,29 +21,33 @@ import { itemListLd, pageMetadata } from "@/lib/seo";
 import { formatDate, readingMinutes, sectionsText } from "@/lib/content";
 
 export const metadata = pageMetadata({
-  title: `Best AI Tools for UK Small Businesses (${SITE.year}) | ${SITE.name}`,
+  title: `Best AI Tools for Small Businesses in the UK & US (${SITE.year}) | ${SITE.name}`,
   absoluteTitle: true,
   description: SITE.description,
   path: "/",
-  keywords: ["ai tools for small businesses", "best ai tools uk", "ai tools directory", "ai for small businesses", "ai tools for business"],
+  keywords: ["ai tools for small business", "best ai tools for small business", "best ai tools uk", "best ai tools usa", "ai tools directory", "ai for small businesses", "ai tools for business"],
 });
 
 const HOME_FAQS = [
   {
     q: "What are the best AI tools for small businesses in the UK?",
-    a: "Our top picks for UK small businesses are Claude or ChatGPT as a general assistant, Microsoft 365 Copilot or Gemini for office suites, Xero or FreeAgent for MTD-ready accounting, Zapier for automation, Canva for design and HubSpot's free CRM. See our [full guide](/guides/best-ai-tools-for-uk-small-businesses).",
+    a: "Our top picks for UK small businesses are Claude or ChatGPT as a general assistant, Microsoft 365 Copilot or Gemini for office suites, Xero or FreeAgent for MTD-ready accounting, Zapier for automation, Canva for design and HubSpot's free CRM. See our [UK guide](/guides/best-ai-tools-for-uk-small-businesses).",
   },
   {
-    q: "How does SmarterBiz.uk test AI tools?",
-    a: "We score every tool on value for money in pounds, ease of use, UK fit (British English, UK GDPR, HMRC compatibility) and features, using real small-business tasks. Vendors cannot pay for placement. Read [how we test](/methodology).",
+    q: "What are the best AI tools for small businesses in the US?",
+    a: "For US small businesses we recommend ChatGPT or Claude as a general assistant, Microsoft 365 Copilot or Gemini inside your office suite, QuickBooks Online for bookkeeping and sales tax, HubSpot's free CRM, Zapier for automation and Canva for design. See our [US guide](/guides/best-ai-tools-for-us-small-businesses).",
   },
   {
-    q: "Are the prices on SmarterBiz.uk in pounds?",
-    a: "Yes. We show indicative sterling prices for entry-level paid plans. Prices change often and may exclude VAT, so always confirm on the vendor's website before buying.",
+    q: "How does HA Tools test AI tools?",
+    a: "We score every tool on value for money, ease of use, regional fit for UK and US buyers (data protection, tax and accounting compatibility, language) and features, using common small-business tasks. Vendors cannot pay for placement. Read [how we review](/methodology).",
+  },
+  {
+    q: "Are the prices on HA Tools in pounds or dollars?",
+    a: "Both. Every review shows an indicative entry-level price in pounds (GBP) for UK buyers and in dollars (USD) for US buyers. Prices change often and may exclude VAT or sales tax, so always confirm on the vendor's website before buying.",
   },
   {
     q: "Is it safe to use AI tools with customer data?",
-    a: "It can be, if you choose business plans that don't train on your data, sign the vendor's data processing agreement and check where data is stored. Our [UK GDPR and AI checklist](/guides/uk-gdpr-ai-compliance-checklist) explains the steps.",
+    a: "It can be, if you choose business plans that don't train on your data, sign the vendor's data processing agreement and check where data is stored. Our [UK GDPR and AI checklist](/guides/uk-gdpr-ai-compliance-checklist) and [US privacy guide](/guides/ai-data-privacy-for-us-small-businesses) explain the steps.",
   },
 ];
 
@@ -57,7 +61,7 @@ export default function HomePage() {
 
   return (
     <>
-      <JsonLd data={itemListLd("Top-rated AI tools for UK small businesses", topTools(10).map((t) => ({ name: t.name, path: `/tools/${t.slug}` })))} />
+      <JsonLd data={itemListLd("Top-rated AI tools for UK & US small businesses", topTools(10).map((t) => ({ name: t.name, path: `/tools/${t.slug}` })))} />
 
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-rule bg-surface-lowest">
@@ -65,10 +69,10 @@ export default function HomePage() {
         <div className="container-site relative grid items-center gap-8 py-10 md:py-16 lg:grid-cols-[1.1fr_1fr]">
           <div className="animate-fade-up">
             <p className="inline-flex items-center gap-2 rounded-full bg-surface-low px-3 py-1.5 text-caption text-slate-body">
-              <span className="h-2 w-2 rounded-full bg-teal" aria-hidden="true" /> Independent UK SME research • No sponsored rankings
+              <span className="h-2 w-2 rounded-full bg-teal" aria-hidden="true" /> Independent research for UK &amp; US small businesses • No sponsored rankings
             </p>
             <p className="mt-5 flex items-center gap-2 text-label">
-              <span className="uppercase tracking-widest text-brand">UK SME Technology Desk</span>
+              <span className="uppercase tracking-widest text-brand">Small Business Technology Desk</span>
               <span className="text-rule-strong">•</span>
               <span className="text-slate-body">{SITE.year} Edition</span>
             </p>
@@ -76,8 +80,8 @@ export default function HomePage() {
               Practical AI Tools for <em className="font-medium text-brand">Smarter</em> Small Businesses
             </h1>
             <p className="mt-4 max-w-xl font-serif text-body-lead text-slate-body">
-              Hands-on reviews of the AI software that saves British founders, SMEs and sole traders real hours — with sterling pricing, UK GDPR
-              notes and Making Tax Digital checks.
+              Independent reviews of the AI software that saves founders, small businesses and freelancers in the UK and US real hours — with £
+              and $ pricing, UK GDPR and US privacy notes, and tax-software checks.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link href="/tools" className="btn-primary px-5 py-3">
@@ -97,8 +101,8 @@ export default function HomePage() {
         <Reveal className="grid grid-cols-2 gap-2 rounded-xl border border-rule bg-surface-lowest p-2 md:grid-cols-4">
           {[
             [`${TOOLS.length}+`, "Tools reviewed", "text-ink"],
-            ["£ GBP", "Pricing checked", "text-brand"],
-            ["UK GDPR", "Data notes on every tool", "text-teal"],
+            ["£ / $", "UK & US pricing", "text-brand"],
+            ["UK + US", "Privacy notes on every tool", "text-teal"],
             [`${GUIDES.length + COMPARISONS.length}`, "Guides & comparisons", "text-ink"],
           ].map(([v, l, c]) => (
             <div key={l} className="flex flex-col items-center rounded-lg bg-surface-low p-3 text-center">
@@ -175,13 +179,13 @@ export default function HomePage() {
             <div className="relative grid gap-6 md:grid-cols-[1.4fr_1fr] md:items-center">
               <div>
                 <p className="flex items-center gap-2 text-label uppercase tracking-wider text-brand-fixed">
-                  Head-to-head benchmark <span className="rounded bg-brand px-2 py-0.5 text-[10px] text-white">UK battle</span>
+                  Head-to-head benchmark <span className="rounded bg-brand px-2 py-0.5 text-[10px] text-white">Top match-up</span>
                 </p>
                 <h2 className="mt-2 font-serif text-headline-md md:text-headline-xl">
-                  {ta.name} vs {tb.name} for UK business workflows
+                  {ta.name} vs {tb.name} for small business workflows
                 </h2>
                 <p className="mt-2 text-body-lg text-periwinkle">
-                  Which handles British English, contract review and GDPR-sensitive work better? We ran both through real SME tasks.
+                  Which handles writing, contract review and privacy-sensitive work better? We compared both on common small-business tasks.
                 </p>
               </div>
               <div className="rounded-lg bg-white/10 p-4 backdrop-blur">
@@ -228,7 +232,7 @@ export default function HomePage() {
       {/* Latest guides */}
       <section className="container-site py-8">
         <Reveal>
-          <SectionHead kicker="Guides" title="Latest UK SME guides" href="/guides" />
+          <SectionHead kicker="Guides" title="Latest small business guides" href="/guides" />
           <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {GUIDES.filter((g) => g.slug !== lead.slug).slice(0, 6).map((g) => <GuideCard key={g.slug} guide={g} />)}
           </div>
@@ -239,13 +243,13 @@ export default function HomePage() {
       <section className="container-site grid gap-6 py-8 lg:grid-cols-2">
         <Reveal className="card bg-surface-low p-6">
           <p className="flex items-center gap-2 text-headline-sm text-ink">
-            <ShieldCheck className="h-5 w-5 text-brand" aria-hidden="true" /> How we test software for UK companies
+            <ShieldCheck className="h-5 w-5 text-brand" aria-hidden="true" /> How we assess software for UK &amp; US companies
           </p>
           <ul className="mt-4 space-y-3 text-body-md text-on-surface">
             {[
-              ["UK GDPR & DPA 2018", "we check training defaults, data location and processing agreements."],
-              ["Sterling pricing", "real costs in pounds, with VAT treatment noted where we can."],
-              ["UK workflows", "British English, HMRC Making Tax Digital and UK integrations."],
+              ["Privacy (UK GDPR & US state laws)", "we check training defaults, data location and processing agreements."],
+              ["£ and $ pricing", "entry-level costs in pounds and dollars, with VAT or sales tax noted where we can."],
+              ["Local workflows", "HMRC Making Tax Digital in the UK, IRS-ready bookkeeping and sales tax in the US."],
               ["Zero pay-to-win", "rankings can never be bought by vendors."],
             ].map(([t, d]) => (
               <li key={t} className="flex gap-2">
@@ -264,7 +268,7 @@ export default function HomePage() {
           </span>
           <h2 className="mt-3 font-serif text-headline-md text-ink">Useful AI tools and software insights — without the hype.</h2>
           <p className="mt-2 text-body-md text-slate-body">
-            Every Thursday: three tested AI tools, one time-saving workflow and the UK regulatory updates (HMRC, ICO) that matter.
+            Every Thursday: three AI tools worth knowing, one time-saving workflow and the UK and US rule changes that matter to small businesses.
           </p>
           <div className="mt-4">
             <NewsletterForm source="home" />

@@ -6,7 +6,7 @@ export const GUIDES_1: Guide[] = [
     title: "The Best AI Tools for UK Small Businesses in 2026",
     metaTitle: "Best AI Tools for Small Businesses UK (2026) — Tested & Priced in £",
     description:
-      "The best AI tools for UK small businesses in 2026, tested for sterling pricing, UK GDPR and Making Tax Digital. Our picks for writing, accounting, customer service, automation and more.",
+      "The best AI tools for UK small businesses in 2026, assessed for sterling pricing, UK GDPR and Making Tax Digital. Our picks for writing, accounting, customer service, automation and more.",
     kicker: "Flagship Guide",
     keywords: [
       "ai tools for small businesses",
@@ -41,6 +41,12 @@ export const GUIDES_1: Guide[] = [
           {
             type: "p",
             text: "Prices below are indicative entry-level paid tiers and may exclude VAT. AI vendors change pricing often, so always confirm on the vendor's own site before you buy.",
+          },
+          {
+            type: "callout",
+            tone: "info",
+            title: "Running a business in the US?",
+            text: "Read our [best AI tools for US small businesses](/guides/best-ai-tools-for-us-small-businesses) guide, with dollar pricing, sales-tax and state privacy notes.",
           },
         ],
       },
@@ -236,7 +242,7 @@ export const GUIDES_1: Guide[] = [
         blocks: [
           {
             type: "table",
-            caption: "SmarterBiz editorial scores (out of 10) for business use",
+            caption: "HA Tools editorial scores (out of 10) for business use",
             head: ["Assistant", "Overall", "Best at", "Watch out for"],
             rows: [
               ["[Claude](/tools/claude)", "9.4", "Writing, contracts, long documents", "Usage limits on Pro"],
@@ -249,7 +255,7 @@ export const GUIDES_1: Guide[] = [
           },
           {
             type: "p",
-            text: "Scores reflect our hands-on testing of everyday small-business tasks, weighted by value, ease of use, UK fit and features. Public benchmarks tell you which model is 'smartest'; our rankings tell you which is most useful for a UK business.",
+            text: "Scores reflect our editorial assessment of everyday small-business tasks, weighted by value, ease of use, UK fit and features. Public benchmarks tell you which model is 'smartest'; our rankings tell you which is most useful for a UK business.",
           },
         ],
       },
@@ -360,7 +366,7 @@ export const GUIDES_1: Guide[] = [
     title: "Best AI Presentation Makers for Business (2026)",
     metaTitle: "Best AI Presentation Maker 2026: Gamma vs Canva vs Copilot (Tested)",
     description:
-      "We tested the best AI presentation makers for business — Gamma, Canva, Microsoft 365 Copilot, Beautiful.ai and ChatGPT — on design quality, PowerPoint export, brand control and price in £.",
+      "We compared the best AI presentation makers for business — Gamma, Canva, Microsoft 365 Copilot, Beautiful.ai and ChatGPT — on design quality, PowerPoint export, brand control and price in £.",
     kicker: "Buyer's Guide",
     keywords: ["ai presentation maker", "ai presentation tools", "presentation ai tools", "best ai presentation maker", "ai powerpoint generator"],
     published: "2026-03-10",
@@ -393,12 +399,12 @@ export const GUIDES_1: Guide[] = [
         ],
       },
       {
-        id: "how-we-tested",
-        heading: "How we tested",
+        id: "how-we-compared",
+        heading: "How we compared them",
         blocks: [
           {
             type: "p",
-            text: "We gave each tool the same three briefs: a 10-slide investor pitch for a Manchester coffee roaster, a staff training deck on UK GDPR basics, and a client proposal generated from a two-page Word document. We scored design quality, accuracy to the source, editing speed, export fidelity and brand control.",
+            text: "We assessed each tool against three common small-business briefs — a 10-slide investor pitch, a staff training deck and a client proposal built from an existing Word document — and scored design quality, accuracy to the source, editing speed, export fidelity and brand control.",
           },
         ],
       },
@@ -471,7 +477,7 @@ export const GUIDES_1: Guide[] = [
     title: "Best AI Detection Tools (2026): Do AI Checkers Actually Work?",
     metaTitle: "Best AI Detection Tool 2026: Tested for Accuracy & False Positives",
     description:
-      "Which AI detection tool is most accurate? We tested Originality.ai, GPTZero and others on human, AI and edited text — and explain when a UK business should (and shouldn't) rely on an AI checker.",
+      "Which AI detection tool is most accurate? We compare Originality.ai, GPTZero and others on human, AI and edited text — and explain when a UK business should (and shouldn't) rely on an AI checker.",
     kicker: "Investigation",
     keywords: ["ai detection tool", "best ai detection tool", "ai work checker", "ai checker", "ai content detector"],
     published: "2026-04-02",
@@ -498,11 +504,11 @@ export const GUIDES_1: Guide[] = [
       },
       {
         id: "results",
-        heading: "What we found",
+        heading: "What to expect from detectors",
         blocks: [
           {
             type: "table",
-            head: ["Test text", "Typical detector result"],
+            head: ["Type of text", "Typical detector result"],
             rows: [
               ["Raw AI output, no edits", "Usually flagged correctly"],
               ["AI output, lightly human-edited", "Often scored as human or mixed"],
@@ -549,7 +555,7 @@ export const GUIDES_1: Guide[] = [
     faqs: [
       {
         q: "What is the most accurate AI detection tool?",
-        a: "In our testing, Originality.ai and GPTZero were the most useful for business content, but no detector is fully accurate. All tools produce false positives and can be fooled by edited AI text.",
+        a: "In our assessment, Originality.ai and GPTZero are the most useful for business content, but no detector is fully accurate. All tools produce false positives and can be fooled by edited AI text.",
       },
       {
         q: "Can AI detectors be wrong?",

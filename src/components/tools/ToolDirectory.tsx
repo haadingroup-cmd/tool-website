@@ -67,8 +67,8 @@ export function ToolDirectory({ tools }: { tools: Tool[] }) {
           <label className="sr-only" htmlFor="dir-sort">Sort by</label>
           <select id="dir-sort" value={sort} onChange={(e) => reset(() => setSort(e.target.value as Sort))} className="input w-auto">
             <option value="score">Highest editorial score</option>
-            <option value="value">Best value (£)</option>
-            <option value="ukFit">Best UK fit</option>
+            <option value="value">Best value</option>
+            <option value="ukFit">Best UK &amp; US fit</option>
             <option value="name">A–Z</option>
           </select>
           <button type="button" aria-pressed={free} onClick={() => reset(() => setFree((v) => !v))}

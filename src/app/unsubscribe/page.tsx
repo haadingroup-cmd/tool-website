@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Unsubscribe",
-  description: "Unsubscribe from the SmarterBiz.uk newsletter.",
+  description: "Unsubscribe from the HA Tools newsletter.",
   path: "/unsubscribe",
   noindex: true,
 });

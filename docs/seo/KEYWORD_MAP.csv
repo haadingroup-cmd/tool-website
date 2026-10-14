@@ -1,0 +1,18 @@
+cluster_id,term,market,intent,data_source,demand_estimate,existing_url,status
+C01,best ai tools for small business,US,commercial,seed (no paid data available),unknown,/guides/best-ai-tools-for-us-small-businesses,published
+C01,ai tools for small businesses,UK,commercial,Semrush UK 2026-09-24,50 (CPC $65),/guides/best-ai-tools-for-uk-small-businesses,published
+C01,best ai tools for businesses,UK,commercial,Semrush UK 2026-09-24,260,/guides/best-ai-tools-for-uk-small-businesses,published
+C02,ai tools directory,UK+US,navigational,Semrush UK 2026-09-24,170 (UK),/tools,published
+C03,ai bookkeeping software,US,commercial,seed,unknown,/guides/best-ai-bookkeeping-software-for-us-small-businesses,published
+C03,quickbooks vs xero,US+UK,commercial,seed,unknown,/compare/xero-vs-quickbooks,published
+C03,making tax digital software,UK,commercial,seed,unknown,/guides/making-tax-digital-ai-accounting-software,published
+C04,ai data privacy small business,US,informational,seed,unknown,/guides/ai-data-privacy-for-us-small-businesses,published
+C04,is chatgpt safe for business,US,informational,seed,unknown,/guides/ai-data-privacy-for-us-small-businesses,published
+C04,uk gdpr ai,UK,informational,seed,unknown,/guides/uk-gdpr-ai-compliance-checklist,published
+C05,deepseek ai,UK,informational,Semrush UK 2026-09-24,14800,/guides/is-deepseek-safe-for-uk-businesses,published
+C06,ai detection tool,UK+US,informational,Semrush UK 2026-09-24,2900 (UK),/guides/best-ai-detection-tools,published
+C07,ai presentation maker,UK+US,commercial,Semrush UK 2026-09-24,2400 (UK),/guides/best-ai-presentation-makers,published
+C08,chatgpt vs claude,UK+US,commercial,seed,unknown,/compare/chatgpt-vs-claude,published
+C09,[tool] pricing usd,US,commercial,seed,unknown,/tools/[slug],published (USD row + FAQ added)
+C10,ai receptionist small business,US,commercial,seed,unknown,(none),planned — needs real tool reviews first
+C11,ai tools for real estate agents,US,commercial,seed,unknown,(none),planned

@@ -1,4 +1,4 @@
-name: SmarterBiz CI
+name: HA Tools CI
 
 on:
   push:

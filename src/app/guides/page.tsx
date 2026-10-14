@@ -7,8 +7,8 @@ import { itemListLd, pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: `AI Guides for UK Small Businesses (${SITE.year})`,
-  description: "Practical, independent guides to using AI in a UK small business: best tools, Making Tax Digital, UK GDPR, AI workflows, research tools, presentation makers and more.",
+  title: `AI Guides for UK & US Small Businesses (${SITE.year})`,
+  description: "Practical, independent guides to using AI in a UK or US small business: best tools, Making Tax Digital, UK GDPR, US privacy, AI bookkeeping, AI workflows, research tools, presentation makers and more.",
   path: "/guides",
   keywords: ["ai for small businesses", "ai guides uk", "how to use ai in business"],
 });
@@ -16,11 +16,11 @@ export const metadata = pageMetadata({
 export default function GuidesPage() {
   return (
     <div className="container-site py-8">
-      <JsonLd data={itemListLd("SmarterBiz.uk guides", GUIDES.map((g) => ({ name: g.title, path: `/guides/${g.slug}` })))} />
+      <JsonLd data={itemListLd("HA Tools guides", GUIDES.map((g) => ({ name: g.title, path: `/guides/${g.slug}` })))} />
       <Breadcrumbs items={[{ name: "Guides", path: "/guides" }]} />
       <header className="mt-4 max-w-3xl">
         <h1 className="font-serif text-headline-xl-mobile text-ink md:text-headline-xl">Guides &amp; investigations</h1>
-        <p className="mt-3 font-serif text-body-lead text-slate-body">In-depth, regularly updated guides for British founders, SMEs and sole traders.</p>
+        <p className="mt-3 font-serif text-body-lead text-slate-body">In-depth, regularly updated guides for founders, small businesses and freelancers in the UK and US.</p>
       </header>
       <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {GUIDES.map((g, i) => (

@@ -8,8 +8,8 @@ import { JsonLd } from "@/components/ui/JsonLd";
 import { itemListLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "AI Tool Comparisons: Head-to-Head Verdicts for UK Businesses",
-  description: "Head-to-head AI tool comparisons for UK small businesses: ChatGPT vs Claude, Copilot vs Gemini, Xero vs QuickBooks, Zapier vs Make and more.",
+  title: "AI Tool Comparisons: Head-to-Head Verdicts for UK & US Businesses",
+  description: "Head-to-head AI tool comparisons for UK & US small businesses: ChatGPT vs Claude, Copilot vs Gemini, Xero vs QuickBooks, Zapier vs Make and more.",
   path: "/compare",
   keywords: ["ai comparison", "ai tool comparison", "chatgpt vs claude", "xero vs quickbooks uk"],
 });
@@ -21,7 +21,7 @@ export default function ComparePage() {
       <Breadcrumbs items={[{ name: "Compare", path: "/compare" }]} />
       <header className="mt-4 max-w-3xl">
         <h1 className="font-serif text-headline-xl-mobile text-ink md:text-headline-xl">Head-to-head comparisons</h1>
-        <p className="mt-3 font-serif text-body-lead text-slate-body">Side-by-side verdicts on the tools UK small businesses most often choose between.</p>
+        <p className="mt-3 font-serif text-body-lead text-slate-body">Side-by-side verdicts on the tools small businesses in the UK and US most often choose between.</p>
       </header>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {COMPARISONS.map((c, i) => {

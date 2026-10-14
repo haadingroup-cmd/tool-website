@@ -14,7 +14,7 @@ export function HouseAd() {
   return (
     <aside className="flex min-h-[90px] flex-col items-center justify-center rounded-lg border border-dashed border-rule-strong bg-surface px-4 py-3 text-center">
       <span className="text-[10px] uppercase tracking-[0.05em] text-slate-mute">Sponsored listing space</span>
-      <p className="mt-1 text-label text-ink">Built an AI tool for UK businesses?</p>
+      <p className="mt-1 text-label text-ink">Built an AI tool for small businesses?</p>
       <Link href="/submit-tool" className="mt-0.5 text-caption font-semibold text-brand hover:underline">
         Submit it for independent review →
       </Link>

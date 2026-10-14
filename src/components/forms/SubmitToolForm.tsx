@@ -46,8 +46,8 @@ export function SubmitToolForm() {
           </select>
         </label>
         <label className="grid gap-1.5 text-label text-ink">
-          UK pricing (optional)
-          <input name="ukPricing" maxLength={200} placeholder="e.g. £15/user/month ex. VAT" className="input font-normal" />
+          UK / US pricing (optional)
+          <input name="ukPricing" maxLength={200} placeholder="e.g. £15 / $19 per user per month" className="input font-normal" />
         </label>
         <label className="grid gap-1.5 text-label text-ink">
           Your name
@@ -59,7 +59,7 @@ export function SubmitToolForm() {
         </label>
       </div>
       <label className="grid gap-1.5 text-label text-ink">
-        What does it do for UK small businesses?
+        What does it do for small businesses in the UK or US?
         <textarea name="description" required minLength={30} maxLength={2000} className="textarea font-normal" />
       </label>
       {status === "error" && <p role="alert" className="text-body-sm text-red-700">{message}</p>}

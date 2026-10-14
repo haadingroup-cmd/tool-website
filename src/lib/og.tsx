@@ -13,7 +13,7 @@ export function ogImage({ kicker, title, footer }: { kicker: string; title: stri
             </div>
           </div>
           <div style={{ display: "flex", fontSize: 34, fontWeight: 700 }}>
-            SmarterBiz<span style={{ color: "#60A5FA" }}>.uk</span>
+            HA <span style={{ color: "#60A5FA" }}>Tools</span>
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -21,8 +21,8 @@ export function ogImage({ kicker, title, footer }: { kicker: string; title: stri
           <div style={{ display: "flex", fontSize: title.length > 70 ? 54 : 64, lineHeight: 1.1, fontWeight: 700, maxWidth: 1050 }}>{title}</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#bec6e0", fontFamily: "sans-serif" }}>
-          <span>{footer ?? "Independent AI tool reviews for UK small businesses"}</span>
-          <span>£ GBP • UK GDPR • MTD</span>
+          <span>{footer ?? "Independent AI tool reviews for UK & US small businesses"}</span>
+          <span>£ GBP • $ USD • UK & US</span>
         </div>
       </div>
     ),

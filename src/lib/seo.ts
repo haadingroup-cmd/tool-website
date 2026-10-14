@@ -31,7 +31,8 @@ export function pageMetadata(input: PageMetaInput): Metadata {
     title: input.absoluteTitle ? { absolute: input.title } : input.title,
     description,
     keywords: input.keywords ? [...input.keywords] : undefined,
-    alternates: { canonical: url, languages: { "en-GB": url, "x-default": url } },
+    // Single English edition for both markets: the same URL serves en-GB and en-US readers.
+    alternates: { canonical: url, languages: { "en-GB": url, "en-US": url, "x-default": url } },
     robots: input.noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       type: input.type ?? "website",
@@ -42,6 +43,7 @@ export function pageMetadata(input: PageMetaInput): Metadata {
       // File-based opengraph-image routes (guides/tools/compare) take precedence over this default.
       images: [DEFAULT_OG],
       locale: SITE.locale,
+      alternateLocale: ["en_US"],
       ...(input.type === "article"
         ? { publishedTime: input.publishedTime, modifiedTime: input.modifiedTime, authors: [SITE.author.name] }
         : {}),
@@ -66,9 +68,11 @@ export function organizationLd() {
     logo: { "@type": "ImageObject", url: absoluteUrl("/logo.svg"), width: 240, height: 48 },
     description: SITE.description,
     email: SITE.email,
-    address: { "@type": "PostalAddress", addressLocality: SITE.address.locality, addressCountry: SITE.address.country },
-    areaServed: { "@type": "Country", name: "United Kingdom" },
-    knowsAbout: ["Artificial intelligence", "Business software", "UK GDPR", "Making Tax Digital", "SaaS procurement"],
+    ...(SITE.address.locality
+      ? { address: { "@type": "PostalAddress", addressLocality: SITE.address.locality, addressCountry: SITE.address.country } }
+      : {}),
+    areaServed: SITE.markets.map((name) => ({ "@type": "Country", name })),
+    knowsAbout: ["Artificial intelligence", "Business software", "UK GDPR", "Making Tax Digital", "US state privacy laws", "US sales tax", "SaaS procurement"],
     ...(SITE.social.length ? { sameAs: SITE.social } : {}),
   };
 }
@@ -159,10 +163,17 @@ export function toolLd(t: Tool) {
     url: t.website,
     image: absoluteUrl(`/tools/${t.slug}/opengraph-image`),
     publisher: { "@type": "Organization", name: t.vendor },
-    ...(t.pricing.freePlan ? { offers: { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free plan available" } } : {}),
+    ...(t.pricing.freePlan
+      ? {
+          offers: [
+            { "@type": "Offer", price: "0", priceCurrency: "GBP", description: "Free plan available", eligibleRegion: { "@type": "Country", name: "GB" } },
+            { "@type": "Offer", price: "0", priceCurrency: "USD", description: "Free plan available", eligibleRegion: { "@type": "Country", name: "US" } },
+          ],
+        }
+      : {}),
     review: {
       "@type": "Review",
-      name: `${t.name} review for UK small businesses`,
+      name: `${t.name} review for UK & US small businesses`,
       url,
       author: authorLd(),
       publisher: { "@id": orgId },

@@ -23,8 +23,8 @@ export async function generateMetadata({ params }: Props) {
   if (!c) return {};
   const n = toolsByCategory(c.slug).length;
   return pageMetadata({
-    title: `Best ${c.name} for UK SMEs (${SITE.year})`,
-    description: `The ${n} best ${c.name.toLowerCase()} for UK small businesses, ranked by independent editorial score with sterling pricing and UK GDPR notes.`,
+    title: `Best ${c.name} for Small Businesses: UK & US (${SITE.year})`,
+    description: `The ${n} best ${c.name.toLowerCase()} for UK & US small businesses, ranked by independent editorial score with £ and $ pricing and privacy notes.`,
     path: `/categories/${c.slug}`,
     keywords: [c.keyword, `best ${c.short.toLowerCase()} tools uk`],
   });
@@ -40,11 +40,11 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <div className="container-site py-8">
-      <JsonLd data={itemListLd(`Best ${c.name} for UK small businesses`, tools.map((t) => ({ name: t.name, path: `/tools/${t.slug}` })))} />
+      <JsonLd data={itemListLd(`Best ${c.name} for UK & US small businesses`, tools.map((t) => ({ name: t.name, path: `/tools/${t.slug}` })))} />
       <Breadcrumbs items={[{ name: "Categories", path: "/categories" }, { name: c.name, path: `/categories/${c.slug}` }]} />
       <header className="mt-4 max-w-3xl">
         <p className="kicker flex items-center gap-2"><Icon name={c.icon} className="h-4 w-4" /> Category</p>
-        <h1 className="mt-2 font-serif text-headline-xl-mobile text-ink md:text-headline-xl">Best {c.name} for UK small businesses</h1>
+        <h1 className="mt-2 font-serif text-headline-xl-mobile text-ink md:text-headline-xl">Best {c.name} for UK &amp; US small businesses</h1>
         <p className="mt-3 text-body-lg text-slate-body" data-speakable="">{c.intro}</p>
         {top && (
           <p className="mt-4 rounded-lg border border-rule bg-surface-lowest p-4 text-body-md">

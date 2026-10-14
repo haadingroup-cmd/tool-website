@@ -1,0 +1,14 @@
+id,priority,task,owner,dependency,status
+B01,P0,Connect hatools.boats DNS to hosting and deploy this branch,owner,hosting access,blocked
+B02,P0,Set NEXT_PUBLIC_SITE_URL=https://www.hatools.boats in hosting env,owner,B01,blocked
+B03,P1,Verify domain in Google Search Console + Bing Webmaster Tools; submit /sitemap.xml,owner,B01,blocked
+B04,P1,Set INDEXNOW_KEY so each deploy notifies Bing/IndexNow engines,owner,B01,prepared
+B05,P1,Provide real editor name + photo + bio; replace "Editorial Team",owner,-,blocked
+B06,P1,Create real social profiles (LinkedIn/X/YouTube) and add to SITE.social,owner,-,blocked
+B07,P1,Re-check all GBP and USD prices against vendor sites before launch,claude/owner,-,planned
+B08,P2,Add real product screenshots for top 10 tools (see ASSETS_NEEDED.md),owner,-,blocked
+B09,P2,Install privacy-friendly analytics (or GA4 + consent) and define conversions,owner,B01,planned
+B10,P2,Pick 5 US-specific comparison pages (e.g. QuickBooks vs FreshBooks) once tools are reviewed,claude,-,planned
+B11,P2,Decide training-crawler policy (GPTBot/CCBot/Google-Extended currently allowed),owner,-,decision needed
+B12,P3,Manual AI-answer prompt panel (ChatGPT/Perplexity/Gemini) monthly after launch,claude,B01,planned
+B13,P2,Outreach: vendor review notices + Product Hunt launch (drafts only until approved),claude,B01,planned

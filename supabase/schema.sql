@@ -1,4 +1,4 @@
--- SmarterBiz.uk database schema. Run in the Supabase SQL editor (Project → SQL Editor → New query).
+-- HA Tools database schema. Run in the Supabase SQL editor (Project → SQL Editor → New query).
 -- RLS is enabled with NO public policies: only the server-side service-role key can read/write.
 
 create extension if not exists citext;

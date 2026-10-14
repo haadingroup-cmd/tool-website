@@ -3,14 +3,14 @@ import { pageMetadata } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 
 export const metadata = pageMetadata({
-  title: "Privacy Policy (UK GDPR)",
-  description: "How SmarterBiz.uk collects, uses and protects personal data under UK GDPR and the Data Protection Act 2018.",
+  title: "Privacy Policy (UK GDPR & US Privacy)",
+  description: "How HA Tools collects, uses and protects personal data under UK GDPR, the Data Protection Act 2018 and applicable US state privacy laws.",
   path: "/privacy-policy",
 });
 
 export default function PrivacyPage() {
   return (
-    <StaticPage title="Privacy policy" path="/privacy-policy" updated="24 September 2026">
+    <StaticPage title="Privacy policy" path="/privacy-policy" updated="14 October 2026">
       <p>
         This policy explains how {SITE.legalName || SITE.name} (&quot;we&quot;) handles personal data under the UK General Data Protection
         Regulation (UK GDPR) and the Data Protection Act 2018.
@@ -41,6 +41,13 @@ export default function PrivacyPage() {
         You have rights to access, correct, erase, restrict and object to processing of your data, and to data portability. Email{" "}
         <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. You can also complain to the Information Commissioner&apos;s Office at{" "}
         <a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener noreferrer">ico.org.uk</a>.
+      </p>
+      <h2>Visitors in the United States</h2>
+      <p>
+        We do not sell or share personal information for cross-context behavioural advertising, and we do not use advertising cookies. If you
+        live in a US state with a consumer privacy law (for example California under the CCPA/CPRA), you can ask us to tell you what personal
+        information we hold about you, correct it or delete it by emailing <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. We will not
+        treat you differently for making a request. This site is not directed at children under 13 and we do not knowingly collect their data.
       </p>
     </StaticPage>
   );

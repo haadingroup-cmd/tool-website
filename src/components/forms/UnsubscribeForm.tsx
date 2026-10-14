@@ -52,7 +52,7 @@ export function UnsubscribeForm() {
   return (
     <div className="card p-6">
       <p className="text-body-lg text-ink">
-        Unsubscribe <strong className="break-all">{email}</strong> from the SmarterBiz Thursday Briefing?
+        Unsubscribe <strong className="break-all">{email}</strong> from the HA Tools Thursday Briefing?
       </p>
       {status === "error" && <p role="alert" className="mt-3 text-body-md text-red-700">{message}</p>}
       <button type="button" onClick={confirm} disabled={status === "loading"} className="btn-dark mt-5">

@@ -6,16 +6,16 @@ export const CATEGORIES: Category[] = [
     name: "AI Assistants & Chatbots",
     short: "AI Assistants",
     icon: "Sparkles",
-    keyword: "best ai assistant for business uk",
+    keyword: "best ai assistant for business",
     intro:
-      "General-purpose AI assistants such as ChatGPT, Claude, Gemini and Microsoft Copilot are the first AI tool most UK small businesses buy. They draft emails, summarise contracts, build spreadsheets and answer research questions. The right choice depends on the office suite you already use, how sensitive your data is and whether you need team controls.",
+      "General-purpose AI assistants such as ChatGPT, Claude, Gemini and Microsoft Copilot are the first AI tool most small businesses in the UK and US buy. They draft emails, summarise contracts, build spreadsheets and answer research questions. The right choice depends on the office suite you already use, how sensitive your data is and whether you need team controls.",
   },
   {
     slug: "writing",
     name: "AI Writing Tools",
     short: "Writing",
     icon: "PenLine",
-    keyword: "ai writing tools uk",
+    keyword: "ai writing tools",
     intro:
       "AI writing tools help you produce proposals, web copy, product descriptions and social posts faster — in proper British English. We favour tools that keep your brand voice consistent and make it easy to fact-check before anything is published.",
   },
@@ -30,12 +30,12 @@ export const CATEGORIES: Category[] = [
   },
   {
     slug: "finance-vat",
-    name: "AI Accounting, VAT & MTD",
+    name: "AI Accounting, VAT & Sales Tax",
     short: "Finance & VAT",
     icon: "Receipt",
-    keyword: "ai accounting software uk",
+    keyword: "ai accounting software for small business",
     intro:
-      "AI bookkeeping tools read receipts, reconcile bank feeds and prepare VAT returns. For UK businesses the non-negotiable is HMRC-recognised Making Tax Digital (MTD) compatibility — for VAT now, and for Income Tax Self Assessment as MTD for ITSA rolls out from April 2026.",
+      "AI bookkeeping tools read receipts, reconcile bank feeds and prepare tax returns. For UK businesses the non-negotiable is HMRC-recognised Making Tax Digital (MTD) compatibility — for VAT now, and for Income Tax Self Assessment as MTD for ITSA rolls out from April 2026. For US businesses, look for clean bank feeds, sales-tax tracking, 1099 contractor support and a ledger your CPA already uses.",
   },
   {
     slug: "sales-crm",
@@ -60,7 +60,7 @@ export const CATEGORIES: Category[] = [
     name: "AI Customer Support",
     short: "Customer Support",
     icon: "Headset",
-    keyword: "ai customer service software uk",
+    keyword: "ai customer service software",
     intro:
       "AI support agents answer common questions 24/7 on your website, email and messaging channels, then hand complex cases to a human. Check how pricing scales — per-resolution billing can be excellent value or a nasty surprise.",
   },
@@ -80,7 +80,7 @@ export const CATEGORIES: Category[] = [
     icon: "Mic",
     keyword: "ai meeting notes tool",
     intro:
-      "AI notetakers record, transcribe and summarise calls on Zoom, Teams and Google Meet. Under UK GDPR you should tell participants they are being recorded and know where the recordings are stored.",
+      "AI notetakers record, transcribe and summarise calls on Zoom, Teams and Google Meet. Under UK GDPR you should tell participants they are being recorded and know where the recordings are stored. In the US, several states require every participant to consent before a call is recorded.",
   },
   {
     slug: "design-video",
@@ -114,9 +114,9 @@ export const CATEGORIES: Category[] = [
     name: "AI Website & eCommerce",
     short: "Web & eCommerce",
     icon: "Store",
-    keyword: "ai website builder uk",
+    keyword: "ai website builder",
     intro:
-      "AI website builders and eCommerce platforms generate pages, product descriptions and store settings from a short brief. Great for getting online fast; make sure you can still edit everything and that UK VAT and shipping are handled properly.",
+      "AI website builders and eCommerce platforms generate pages, product descriptions and store settings from a short brief. Great for getting online fast; make sure you can still edit everything and that UK VAT or US sales tax and shipping are handled properly.",
   },
   {
     slug: "ai-detection",

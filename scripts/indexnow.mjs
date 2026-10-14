@@ -4,7 +4,7 @@
 import { readFile } from "node:fs/promises";
 
 const KEY = process.env.INDEXNOW_KEY ?? "";
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.smarterbiz.uk").replace(/\/+$/, "");
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.hatools.boats").replace(/\/+$/, "");
 
 if (process.env.VERCEL_ENV !== "production") {
   console.log("[indexnow] skipped (not a Vercel production build)");

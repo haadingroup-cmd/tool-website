@@ -5,7 +5,7 @@ import { SITE } from "@/lib/site";
 
 export const metadata = pageMetadata({
   title: "Contact & Corrections",
-  description: "Contact the SmarterBiz.uk editorial team, report a correction or ask about partnerships.",
+  description: "Contact the HA Tools editorial team, report a correction or ask about partnerships.",
   path: "/contact",
 });
 

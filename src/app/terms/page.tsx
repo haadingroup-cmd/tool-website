@@ -3,7 +3,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Terms of Use",
-  description: "Terms of use for SmarterBiz.uk.",
+  description: "Terms of use for HA Tools.",
   path: "/terms",
 });
 

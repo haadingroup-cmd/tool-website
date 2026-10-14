@@ -5,7 +5,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Search AI Tools, Guides & Comparisons",
-  description: "Search SmarterBiz.uk's directory of AI tools, guides and comparisons for UK small businesses.",
+  description: "Search the HA Tools directory of AI tools, guides and comparisons for UK & US small businesses.",
   path: "/search",
   noindex: true,
 });

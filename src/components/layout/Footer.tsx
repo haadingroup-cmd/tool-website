@@ -13,6 +13,7 @@ const cols = [
     title: "Popular",
     links: [
       { href: "/guides/best-ai-tools-for-uk-small-businesses", label: "Best AI tools UK" },
+      { href: "/guides/best-ai-tools-for-us-small-businesses", label: "Best AI tools USA" },
       { href: "/compare/chatgpt-vs-claude", label: "ChatGPT vs Claude" },
       { href: "/guides/ai-model-comparison", label: "AI model comparison" },
       { href: "/guides/making-tax-digital-ai-accounting-software", label: "MTD software 2026" },
@@ -24,9 +25,9 @@ const cols = [
     title: "Governance",
     links: [
       { href: "/about", label: "About us" },
-      { href: "/methodology", label: "How we test" },
+      { href: "/methodology", label: "How we review" },
       { href: "/affiliate-disclosure", label: "Affiliate disclosure" },
-      { href: "/privacy-policy", label: "UK GDPR & privacy" },
+      { href: "/privacy-policy", label: "Privacy (UK & US)" },
       { href: "/terms", label: "Terms of use" },
       { href: "/contact", label: "Contact & corrections" },
       { href: "/submit-tool", label: "Submit a tool" },
@@ -43,12 +44,12 @@ export function Footer() {
             <Logo />
           </Link>
           <p className="max-w-sm text-body-md text-slate-body">
-            Independent reviews and guides to the AI tools and business software that help UK small businesses save time — with
-            sterling pricing, UK GDPR notes and Making Tax Digital checks.
+            Independent reviews and guides to the AI tools and business software that help small businesses in the UK and US save
+            time — with £ and $ pricing, UK GDPR and US privacy notes, and tax-software checks.
           </p>
           <div className="card p-5">
             <p className="text-label uppercase tracking-wider text-ink">The Thursday Briefing</p>
-            <p className="mt-1 text-body-sm text-slate-body">Three tested AI tools, one workflow template and UK regulatory updates — weekly.</p>
+            <p className="mt-1 text-body-sm text-slate-body">Three AI tools worth knowing, one workflow template and UK &amp; US rule changes — weekly.</p>
             <div className="mt-3">
               <NewsletterForm source="footer" variant="compact" />
             </div>

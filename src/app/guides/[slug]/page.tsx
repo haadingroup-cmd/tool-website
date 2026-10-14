@@ -104,7 +104,7 @@ export default async function GuidePage({ params }: Props) {
                 <p className="text-headline-sm text-ink">{SITE.author.name}</p>
                 <p className="mt-1 text-body-md text-slate-body">{SITE.author.bio}</p>
                 <p className="mt-2 text-body-sm">
-                  <Link href="/methodology" className="text-brand hover:underline">How we test</Link> ·{" "}
+                  <Link href="/methodology" className="text-brand hover:underline">How we review</Link> ·{" "}
                   <Link href="/contact" className="text-brand hover:underline">Report a correction</Link>
                 </p>
               </div>
@@ -130,7 +130,7 @@ export default async function GuidePage({ params }: Props) {
               )}
               <div className="card p-4">
                 <p className="text-label uppercase tracking-wider text-ink">The Thursday Briefing</p>
-                <p className="mt-1 text-body-sm text-slate-body">Tested AI tools and UK regulatory updates, weekly.</p>
+                <p className="mt-1 text-body-sm text-slate-body">AI tools worth knowing and UK &amp; US rule changes, weekly.</p>
                 <div className="mt-3"><NewsletterForm source={`guide/${g.slug}`} variant="compact" /></div>
               </div>
             </div>

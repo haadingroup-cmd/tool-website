@@ -14,9 +14,9 @@ export function Logo({ compact = false }: { compact?: boolean }) {
       <LogoMark className={compact ? "h-7 w-7" : "h-9 w-9"} />
       <span className="flex flex-col leading-none">
         <span className="font-serif text-[21px] font-semibold tracking-tight text-ink">
-          SmarterBiz<span className="text-brand">.uk</span>
+          HA <span className="text-brand">Tools</span>
         </span>
-        {!compact && <span className="mt-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-mute">UK AI &amp; Software Guide</span>}
+        {!compact && <span className="mt-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-mute">UK &amp; US AI Tools Guide</span>}
       </span>
     </span>
   );

@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   try {
     let isNew = await insertRow(
       "subscribers",
-      { email, source, consent_text: "Weekly SmarterBiz briefing — unsubscribe anytime." },
+      { email, source, consent_text: "Weekly HA Tools briefing — unsubscribe anytime." },
       { ignoreDuplicatesOn: "email" },
     );
     if (!isNew) {

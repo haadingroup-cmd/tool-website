@@ -1,6 +1,6 @@
-# SmarterBiz.uk — UK AI Tools Directory
+# HA Tools — AI Tools Directory for UK & US Small Businesses
 
-A complete Next.js 15 site built from the Stitch "British Editorial Intelligence" design: an independent directory of AI tools for UK small businesses, with reviews, head-to-head comparisons, long-form guides, a secure backend for forms, and full technical SEO/AEO/GEO.
+A complete Next.js 15 site built from the Stitch "British Editorial Intelligence" design: an independent directory of AI tools for small businesses in the UK and US (live domain: https://www.hatools.boats), with reviews, head-to-head comparisons, long-form guides, a secure backend for forms, and full technical SEO/AEO/GEO.
 
 
 ## What's inside
@@ -10,7 +10,7 @@ A complete Next.js 15 site built from the Stitch "British Editorial Intelligence
 | Pages | Home, tools directory (search/filter/sort/paginate), 37 tool reviews, 14 category pages, 10 comparisons, 18 guides, search, about, methodology, affiliate disclosure, privacy (UK GDPR), terms, contact, submit-a-tool, unsubscribe, 404 |
 | Backend | `/api/subscribe` (with optional welcome email via Resend), `/api/unsubscribe` (HMAC-signed links + RFC 8058 one-click), `/api/contact`, `/api/submit-tool` (Supabase via server-side REST), `/api/search` |
 | Security | Strict CSP + HSTS + frame/sniff/referrer/permissions headers, same-origin (CSRF) checks, JSON-only, 16 KB body limit, per-IP rate limiting, zod validation, honeypot + timing bot traps, RLS-locked tables, service key never sent to the browser, no `dangerouslySetInnerHTML` for content, 0 npm vulnerabilities |
-| SEO | Per-page titles/descriptions/canonicals/hreflang (en-GB), Open Graph + Twitter cards, dynamic OG images, XML sitemap, robots.txt, RSS feed, breadcrumbs |
+| SEO | Per-page titles/descriptions/canonicals/hreflang (en-GB, en-US, x-default), Open Graph + Twitter cards, dynamic OG images, XML sitemap, robots.txt, RSS feed, breadcrumbs |
 | Schema.org | Organization, WebSite + SearchAction, BreadcrumbList, Article, SoftwareApplication + Review/Rating, ItemList, FAQPage, Speakable |
 | AEO / GEO / LLM | "Quick answer" boxes, key takeaways, FAQ blocks, `llms.txt` + `llms-full.txt`, AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended…) explicitly allowed |
 | Design & motion | Newsreader + Inter (self-hosted via `next/font`), CSS-3D hero with pointer parallax, 3D tilt cards, scroll reveals, animated score bars, reading progress bar. Honours `prefers-reduced-motion` |
@@ -37,7 +37,7 @@ npm run check:content && npm run typecheck && npm run lint && npm run build
    1. Go to **Add New → Project** and import this GitHub repo.
    2. Leave the defaults: Vercel detects Next.js automatically.
    3. Add these environment variables:
-      - `NEXT_PUBLIC_SITE_URL` = `https://www.yourdomain.co.uk` (no trailing slash)
+      - `NEXT_PUBLIC_SITE_URL` = `https://www.hatools.boats` (no trailing slash)
       - `SUPABASE_URL` = your Supabase project URL
       - `SUPABASE_SERVICE_ROLE_KEY` = your service role key (**never** prefix it with `NEXT_PUBLIC_`)
       - `NEWSLETTER_SECRET` = 32+ random characters (`openssl rand -hex 32`), which signs unsubscribe links
@@ -62,7 +62,7 @@ In `src/lib/site.ts`:
 Content:
 
 - Tool data lives in `src/data/tools.ts`, guides in `src/data/guides-1.ts` and `guides-2.ts`, comparisons in `src/data/comparisons.ts`.
-- Prices are indicative GBP figures. Re-check them against vendor sites before launch and then quarterly, and update `SITE.lastUpdated`.
+- Prices are indicative GBP (`pricing.from`) and USD (`pricing.usd`) figures; every tool also has `ukNotes` and `usNotes`. Re-check them against vendor sites before launch and then quarterly, and update `SITE.lastUpdated`.
 - To add an affiliate link, set `affiliateUrl` on a tool. It's automatically marked `rel="sponsored"`.
 
 ## Newsletter
@@ -80,3 +80,6 @@ Use Supabase **Table Editor**: `subscribers`, `contact_messages` and `tool_submi
 - The CSP allows inline scripts because Next.js' static pages need them. There are no third-party scripts. If you add analytics (such as Plausible or GA4), add its domain to `script-src`/`connect-src` in `next.config.mjs`, and add a cookie banner if it sets cookies.
 
 See **SEO-PLAYBOOK.md** for keyword research, the content plan and off-page strategy.
+
+
+SEO project records (brief, state, keyword map, entity record, backlog, changelog, assets needed) live in `docs/seo/`.

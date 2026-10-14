@@ -3,7 +3,7 @@ import { TOOLS, toolBySlug } from "@/data/tools";
 
 export const size = OG_SIZE;
 export const contentType = "image/png";
-export const alt = "SmarterBiz.uk";
+export const alt = "HA Tools";
 export const generateStaticParams = () => TOOLS.map((t) => ({ slug: t.slug }));
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
@@ -11,7 +11,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const t = toolBySlug(slug);
   return ogImage({
     kicker: t ? `${t.vendor} • Review • ${t.score.toFixed(1)}/10` : "Review",
-    title: t ? `${t.name}: ${t.tagline}` : "SmarterBiz.uk review",
+    title: t ? `${t.name}: ${t.tagline}` : "HA Tools review",
     footer: t ? `Entry price: ${t.pricing.from}` : undefined,
   });
 }

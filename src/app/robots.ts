@@ -11,7 +11,8 @@ const AI_CRAWLERS = [
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/api/", "/search", "/unsubscribe"] },
+      // /search and /unsubscribe stay crawlable so crawlers can see their noindex directive (robots.txt blocking would hide it).
+      { userAgent: "*", allow: "/", disallow: ["/api/"] },
       ...AI_CRAWLERS.map((ua) => ({ userAgent: ua, allow: "/", disallow: ["/api/"] })),
     ],
     sitemap: `${SITE.url}/sitemap.xml`,

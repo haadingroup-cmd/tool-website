@@ -32,10 +32,12 @@ export interface Tool {
   review: string[];
   categories: CategorySlug[];
   score: number; // out of 10
+  // ukFit = regional fit for UK & US buyers (data protection, tax/accounting compatibility, local language).
   scores: { value: number; easeOfUse: number; ukFit: number; features: number };
-  pricing: { from: string; freePlan: boolean; trial?: string; note?: string };
+  pricing: { from: string; usd: string; freePlan: boolean; trial?: string; note?: string };
   bestFor: string;
   ukNotes: string;
+  usNotes: string;
   pros: string[];
   cons: string[];
   features: string[];

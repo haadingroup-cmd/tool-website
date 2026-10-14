@@ -8,8 +8,8 @@ import { JsonLd } from "@/components/ui/JsonLd";
 import { itemListLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "AI Tool Categories for UK Small Businesses",
-  description: "Browse AI tools for UK small businesses by category: assistants, writing, accounting & MTD, CRM, marketing, customer support, automation, meetings, design, presentations and more.",
+  title: "AI Tool Categories for UK & US Small Businesses",
+  description: "Browse AI tools for UK & US small businesses by category: assistants, writing, accounting & tax, CRM, marketing, customer support, automation, meetings, design, presentations and more.",
   path: "/categories",
 });
 

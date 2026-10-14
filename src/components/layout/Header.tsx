@@ -52,7 +52,7 @@ export function Header() {
         <div className="container-site flex h-8 items-center justify-between text-caption text-slate-body">
           <span className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 animate-pulse2 rounded-full bg-brand" aria-hidden="true" />
-            UK SME Software Index {SITE.year} • Independent reviews • Prices in £
+            UK &amp; US Small Business AI Index {SITE.year} • Independent reviews • Prices in £ and $
           </span>
           <span>
             <strong className="font-semibold text-ink">Editorial independence:</strong> no paid rankings.{" "}

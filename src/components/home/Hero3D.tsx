@@ -44,7 +44,7 @@ export function Hero3D() {
         {/* Main scorecard */}
         <div className="absolute left-4 right-10 top-12 rounded-xl border border-rule bg-surface-lowest p-4 shadow-lift sm:left-8" style={{ transform: "translateZ(30px)" }}>
           <div className="flex items-center justify-between">
-            <span className="text-caption font-semibold uppercase tracking-wider text-slate-mute">UK SME Benchmark</span>
+            <span className="text-caption font-semibold uppercase tracking-wider text-slate-mute">UK &amp; US SME Benchmark</span>
             <span className="chip-teal"><BadgeCheck className="h-3 w-3" />Editor&apos;s Choice</span>
           </div>
           <div className="mt-3 flex items-end justify-between">
@@ -56,8 +56,8 @@ export function Hero3D() {
           </div>
           <div className="mt-4 space-y-2.5">
             {[
-              ["Value (£)", 90, "bg-brand"],
-              ["UK fit", 94, "bg-teal"],
+              ["Value (£/$)", 90, "bg-brand"],
+              ["UK & US fit", 94, "bg-teal"],
               ["Ease of use", 95, "bg-brand"],
             ].map(([label, v, c]) => (
               <div key={label as string}>
@@ -72,13 +72,13 @@ export function Hero3D() {
 
         {/* Floating chips */}
         <div className="absolute -left-1 bottom-16 animate-float rounded-lg border border-brand-line bg-brand-tint px-3 py-2 shadow-pop" style={{ transform: "translateZ(90px)" }}>
-          <p className="flex items-center gap-1.5 text-price text-brand-active"><PoundSterling className="h-4 w-4" />£18/mo + VAT</p>
+          <p className="flex items-center gap-1.5 text-price text-brand-active"><PoundSterling className="h-4 w-4" />£18 / $20 a month</p>
         </div>
         <div className="absolute bottom-6 right-2 animate-float rounded-lg border border-rule bg-surface-lowest px-3 py-2 shadow-pop [animation-delay:1.2s]" style={{ transform: "translateZ(110px)" }}>
           <p className="flex items-center gap-1.5 text-label text-teal-deep"><Landmark className="h-4 w-4" />MTD ready</p>
         </div>
         <div className="absolute right-0 top-2 animate-float rounded-lg border border-rule bg-ink px-3 py-2 shadow-pop [animation-delay:2.1s]" style={{ transform: "translateZ(70px)" }}>
-          <p className="flex items-center gap-1.5 text-label text-white"><ShieldCheck className="h-4 w-4 text-teal-light" />UK GDPR checked</p>
+          <p className="flex items-center gap-1.5 text-label text-white"><ShieldCheck className="h-4 w-4 text-teal-light" />GDPR &amp; CCPA notes</p>
         </div>
         <div className="absolute bottom-28 right-6 hidden animate-float rounded-full border border-rule bg-surface-lowest p-2 shadow-pop [animation-delay:.6s] sm:block" style={{ transform: "translateZ(140px)" }}>
           <TrendingUp className="h-5 w-5 text-brand" />
