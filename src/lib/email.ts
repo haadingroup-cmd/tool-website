@@ -7,9 +7,9 @@ import { featuredGuide } from "@/data/guides";
 /** Transactional email via Resend's REST API. Optional: does nothing unless configured. */
 export const emailConfigured = () => Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
 
-const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+export const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-async function send(payload: Record<string, unknown>): Promise<boolean> {
+export async function send(payload: Record<string, unknown>): Promise<boolean> {
   if (!emailConfigured()) return false;
   try {
     const res = await fetch("https://api.resend.com/emails", {

@@ -71,3 +71,42 @@ export async function updateRows(table: Table, filters: Record<string, string>, 
   const rows = (await res.json().catch(() => [])) as unknown[];
   return Array.isArray(rows) ? rows.length : 0;
 }
+
+/** Filters as [column, expression] pairs, so one column can be filtered twice (e.g. a date range). */
+export type Filters = [column: string, expr: string][];
+
+async function read(table: Table, filters: Filters, params: Record<string, string>, headers: Record<string, string>) {
+  const { url, key } = conn();
+  const endpoint = new URL(`/rest/v1/${table}`, url);
+  for (const [col, expr] of filters) endpoint.searchParams.append(col, expr);
+  for (const [k, v] of Object.entries(params)) endpoint.searchParams.set(k, v);
+  const res = await fetch(endpoint, {
+    headers: { apikey: key, Authorization: `Bearer ${key}`, ...headers },
+    cache: "no-store",
+    signal: AbortSignal.timeout(8000),
+  });
+  if (!res.ok) {
+    console.error(`[db] GET ${table} failed with status ${res.status}`);
+    throw new Error("Database read failed");
+  }
+  return res;
+}
+
+/** Selects rows (newest first by default), capped at `limit`. */
+export async function selectRows<T extends Row = Row>(
+  table: Table,
+  filters: Filters,
+  opts: { select: string; order?: string; limit?: number },
+): Promise<T[]> {
+  const res = await read(table, filters, { select: opts.select, order: opts.order ?? "created_at.desc", limit: String(opts.limit ?? 100) }, {});
+  const rows = (await res.json().catch(() => [])) as unknown;
+  return Array.isArray(rows) ? (rows as T[]) : [];
+}
+
+/** Counts rows matching the filters without transferring them. */
+export async function countRows(table: Table, filters: Filters): Promise<number> {
+  const res = await read(table, filters, { select: "id" }, { Prefer: "count=exact", Range: "0-0" });
+  // Content-Range looks like "0-0/42" or "*/0".
+  const total = Number(res.headers.get("content-range")?.split("/")[1]);
+  return Number.isFinite(total) ? total : 0;
+}
